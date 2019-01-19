@@ -107,14 +107,14 @@
                     <div class="col-md-4 mb-3">
                         <label for="l-name">Site Name</label>
                         <!-- <small id="role-help" class="text-muted">Site Name</small> -->
-                        <input type="text" class="form-control form-control-sm" id="c-name" aria-describedby=""
+                        <input type="text" class="form-control form-control-sm" id="l-name" aria-describedby=""
                             placeholder="E.g The Physics Room">
 
                     </div>
                     <div class="col-md-5 mb-3">
                         <label for="l-url">Project Url</label>
                         <!-- <small id="role-help" class="text-muted">Project Url</small> -->
-                        <input type="text" class="form-control form-control-sm" id="c-role" aria-describedby=""
+                        <input type="text" class="form-control form-control-sm" id="l-url" aria-describedby=""
                             placeholder="Site specific project url">
                     </div>
                 </div>
@@ -126,6 +126,27 @@
                 <label for="images">Images </label>
                 <textarea class="form-control input-lg" id="images" aria-describedby="" placeholder="Paste urls to public images, each separated by a comma and a space."></textarea>
             </div>
+            <label for="location">Additional Media</label>
+            <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="l-name">Title</label>
+                            <!-- <small id="role-help" class="text-muted">Site Name</small> -->
+                            <input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
+                                placeholder="Title">
+    
+                        </div>
+                        <div class="col-md-5 mb-3">
+                            <label for="l-url">Url</label>
+                            <!-- <small id="role-help" class="text-muted">Project Url</small> -->
+                            <input type="text" class="form-control form-control-sm" id="am-url" aria-describedby=""
+                                placeholder="Link to media">
+                        </div>
+                    </div>
+                </div>
+                <div class="add-loc-container">
+                        <button type="button" class="btn small-btn-custom loc-btn">Add Media</button>
+                    </div>
             <button type="submit" class="btn btn-primary">Submit</button>
     </div>
     </form>
