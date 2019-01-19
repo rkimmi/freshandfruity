@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,128 @@
     <title>Document</title>
     <script src='script.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type='text/css' href="../style.css" />
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script> -->
 </head>
+
 <body>
-    
+    <div class="form-container">
+        <!-- all project modal -->
+        <div class="form-title">New Project</div>
+        <form>
+            <div class="form-group">
+                <label for="title">Project Title</label>
+                <input type="text" class="form-control" id="title" aria-describedby="" placeholder="Project Title">
+                <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
+            </div>
+            <div class="form-group">
+                <label for="description">Description </label>
+                <textarea class="form-control input-lg" id="description" placeholder="Project Description. E.g; Blame it on the rain. A one night only film screening presented by Fresh and Fruity and JPEG2000 as part of Till the World Ends"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="sm-input-custom">
+                    <label for="year">Year </label>
+                    <input type="text" class="form-control form-control-sm" id="year" aria-describedby="" placeholder="Year">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="s-date">Start Date</label>
+                    <input type="text" class="form-control form-control-sm" id="s-date" aria-describedby="" placeholder="DD/MM/YY">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="e-date">End Date</label>
+                    <input type="text" class="form-control form-control-sm" id="e-date" aria-describedby="" placeholder="DD/MM/YY">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="text">Text </label>
+                <textarea class="form-control input-lg" id="text" aria-describedby="" placeholder="Project Text. E.g; wall text or write up. For larger text documents such as google docs, provide public links below via Additional Media."></textarea>
+            </div>
+            <!-- <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
+            <!-- <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+            <div class="cont-text">Contributors</div>
+            <div class="form-group cont-container">
+                <div class="form-row cont-row">
+                    <div class="col-md-5 mb-3">
+                        <label for="c-name">Name</label>
+                        <small id="role-help" class="text-hidden">e.g; facilitator, curator, artist. Default: artist</small>
+                        <input type="text" class="form-control form-control-sm" id="c-name" aria-describedby=""
+                            placeholder="Name">
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="c-role ">Role</label>
+                        <small id="role-help" class="text-muted">e.g; facilitator, curator, artist. Default: artist</small>
+                        <input type="text" class="form-control form-control-sm" id="c-role" aria-describedby=""
+                            placeholder="Artist" value="Artist">
+                    </div>
+                    <!-- <button type="button" class="btn remove-button">X</button> -->
+                </div>
+            </div>
+            <div class="add-cont-container">
+                <button type="button" class="btn small-btn-custom cont-btn">Add Contributor</button>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <label for="categories">Categories </label>
+                <div class="form-row cat-container">
+                    <button type="button" class="btn small-btn-custom">Film Screening</button>
+                    <button type="button" class="btn small-btn-custom">Writing</button>
+                    <button type="button" class="btn small-btn-custom">Performance</button>
+                    <!-- <button type="button" class="btn small-btn-custom"></button>
+                            <button type="button" class="btn small-btn-custom"></button>
+                            <button type="button" class="btn small-btn-custom"></button>
+                            <button type="button" class="btn small-btn-custom"></button>
+                            <button type="button" class="btn small-btn-custom"></button> -->
+                </div>
+            </div>
+            <label for="location" class='loc-text'>Location </label>
+            <div class="form-group radio-group">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="online" value="online">
+                    <label class="form-check-label" for="online">Online</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="onsite" value="onsite">
+                    <label class="form-check-label" for="onsite">Onsite</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="online/onsite" value="online/onsite">
+                    <label class="form-check-label" for="online/onsite">Online and Onsite</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="l-name">Site Name</label>
+                        <!-- <small id="role-help" class="text-muted">Site Name</small> -->
+                        <input type="text" class="form-control form-control-sm" id="c-name" aria-describedby=""
+                            placeholder="E.g The Physics Room">
+
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="l-url">Project Url</label>
+                        <!-- <small id="role-help" class="text-muted">Project Url</small> -->
+                        <input type="text" class="form-control form-control-sm" id="c-role" aria-describedby=""
+                            placeholder="Site specific project url">
+                    </div>
+                </div>
+            </div>
+            <div class="add-loc-container">
+                <button type="button" class="btn small-btn-custom loc-btn">Add Location</button>
+            </div>
+            <div class="form-group">
+                <label for="images">Images </label>
+                <textarea class="form-control input-lg" id="images" aria-describedby="" placeholder="Paste urls to public images, each separated by a comma and a space."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </form>
+    </div>
 </body>
+
 </html>
