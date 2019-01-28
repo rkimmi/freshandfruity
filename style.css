@@ -1,0 +1,153 @@
+.body {
+    background-color: #ffc0cb;
+}
+
+.app {
+    display: flex;
+    flex-direction: row;
+}
+
+.project-modal {
+    background-color: #f2ced4;
+    /* margin-bottom: 20px;
+    margin-top: 20px; */
+}
+
+.modal-true {
+    width: 20%;
+}
+
+.modal-false {
+    width: 3%;
+}
+
+.title-selected {
+    background-color: magenta;
+    color: white;
+}
+
+.modal-title {
+    padding-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.form-container {
+    width: 70%;
+    margin-right: auto;
+    margin-bottom: 50px;
+    padding: 25px;
+    /* border: 2px solid #fa7088; */
+    background-color: white;
+}
+
+.form-title {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.cat-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+    margin-left: 0px;
+}
+
+.small-btn-custom {
+    color: magenta;
+    border: 1px solid magenta;
+    margin-bottom: 27px;
+    margin-top: -17px;
+}
+
+.small-btn-custom:hover,
+.small-btn-custom-true {
+    background-color: magenta;
+    color: white;
+}
+
+.cont-text {
+    margin-top: 20px;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.loc-text {
+    margin-top: 10px;
+}
+
+.med-text {
+    font-size: 18px;
+}
+
+.l-name {}
+
+.text-hidden {
+    color: transparent;
+}
+
+.cont-container {
+    /* margin-left: 25px; */
+    /* margin: 25px; */
+}
+
+.add-cont-container {
+    /* margin-left: 25px;   */
+    /* margin-bottom: 25px; */
+    /* margin-top: -10px; */
+}
+
+.custom-dropdown {
+    margin-top: 28px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* bootstrap overwrite */
+.dropdown-item:hover {
+    background-color: magenta !important;
+    color: white !important;
+}
+
+.dropdown-item {
+    color: magenta;
+}
+
+.dd-menu-margin {
+    margin-top: -5px;
+}
+
+.del-btn {
+    color: #d1d1d1;
+    padding-top: 20px !important;
+    padding-left: 5px !important;
+}
+
+.del-btn:hover,
+.del-btn:active {
+    color: magenta
+}
+
+.btn-margin {
+    margin-top: -45px;
+}
+
+.cat-selected  {
+    background-color: magenta !important;
+    color: white !important;
+}
+
+.cat-selected:active,  .cat-selected:focus, .cat-selected::after {
+    background-color: white!important;
+    color: magenta !important;
+}
+
+.modal {
+    width: 20%;
+    border: 1px solid pink;
+}

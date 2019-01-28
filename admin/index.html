@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src='script.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
+   
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script> 
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
     <link rel="stylesheet" type='text/css' href="../style.css" />
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script> -->
+
 </head>
 
 <body>
-    <div class="form-container">
-        <!-- all project modal -->
+        <script src='script.js' ></script>
+        <div class="app">
+        <div id='modal' class="project-modal modal-true">
+                <div class="toggle-true" onclick="toggleModal()">V</div>
+            <div id='modal-items' class='modal-items'>
+            <div class="modal-title title-selected">New Project</div>
+            <div class="modal-title">Edit Project</div>
+        </div>
+         </div>
+
+        <div class="form-container">
         <div class="form-title">New Project</div>
-        <form>
+        <form onsubmit='return makeJson(this)'>
             <div class="form-group">
                 <label for="title">Project Title</label>
                 <input type="text" class="form-control" id="title" aria-describedby="" placeholder="Project Title">
-                <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
             </div>
             <div class="form-group">
                 <label for="description">Description </label>
@@ -49,13 +62,9 @@
                 <label for="text">Text </label>
                 <textarea class="form-control input-lg" id="text" aria-describedby="" placeholder="Project Text. E.g; wall text or write up. For larger text documents such as google docs, provide public links below via Additional Media."></textarea>
             </div>
-            <!-- <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1"> -->
-            <!-- <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div> -->
             <div class="cont-text">Contributors</div>
-            <div class="form-group cont-container">
-                <div class="form-row cont-row">
+            <div class="form-group cont-container" id='cont-container'>
+                <div class="form-row cont-row" id='cont1'>
                     <div class="col-md-5 mb-3">
                         <label for="c-name">Name</label>
                         <small id="role-help" class="text-hidden">e.g; facilitator, curator, artist. Default: artist</small>
@@ -68,26 +77,35 @@
                         <input type="text" class="form-control form-control-sm" id="c-role" aria-describedby=""
                             placeholder="Artist" value="Artist">
                     </div>
-                    <!-- <button type="button" class="btn remove-button">X</button> -->
+                    <button type="button" class="btn del-btn" onclick="delItem(this)">X</button>
                 </div>
             </div>
             <div class="add-cont-container">
-                <button type="button" class="btn small-btn-custom cont-btn">Add Contributor</button>
+                <button type="button" class="btn small-btn-custom cont-btn" onclick="addField('cont')">Add Contributor</button>
             </div>
             <div class="form-group" style="margin-bottom: 0px;">
-                <label for="categories">Categories </label>
+                <label for="categories" class="med-text">Categories </label>
                 <div class="form-row cat-container">
-                    <button type="button" class="btn small-btn-custom">Film Screening</button>
-                    <button type="button" class="btn small-btn-custom">Writing</button>
-                    <button type="button" class="btn small-btn-custom">Performance</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-T' onclick="toggleCat(this.id)">Text</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-W' onclick="toggleCat(this.id)">Installation</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-P' onclick="toggleCat(this.id)">Performance</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-S' onclick="toggleCat(this.id)">Sculpture</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-A' onclick="toggleCat(this.id)">Audio</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-J' onclick="toggleCat(this.id)">Jewellery</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-V' onclick="toggleCat(this.id)">Video</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-F' onclick="toggleCat(this.id)">Fashion / Textiles</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-FS' onclick="toggleCat(this.id)">Film Screening</button>
+                    <button type="button" class="btn small-btn-custom" id='cat-WH' onclick="toggleCat(this.id)">Workshop / Hui</button>
+
                     <!-- <button type="button" class="btn small-btn-custom"></button>
+                        // text, installation, sculpture, audio, jewellery, performance, fashion/textiles, online 
                             <button type="button" class="btn small-btn-custom"></button>
                             <button type="button" class="btn small-btn-custom"></button>
                             <button type="button" class="btn small-btn-custom"></button>
                             <button type="button" class="btn small-btn-custom"></button> -->
                 </div>
             </div>
-            <label for="location" class='loc-text'>Location </label>
+            <label for="location" class='loc-text med-text'>Location </label>
             <div class="form-group radio-group">
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="online" value="online">
@@ -102,55 +120,66 @@
                     <label class="form-check-label" for="online/onsite">Online and Onsite</label>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="form-row">
+            <div class="form-group loc-container" id='loc-container'> 
+                <div class="form-row loc-row" id='loc1'>
                     <div class="col-md-4 mb-3">
                         <label for="l-name">Site Name</label>
-                        <!-- <small id="role-help" class="text-muted">Site Name</small> -->
                         <input type="text" class="form-control form-control-sm" id="l-name" aria-describedby=""
                             placeholder="E.g The Physics Room">
 
                     </div>
                     <div class="col-md-5 mb-3">
                         <label for="l-url">Project Url</label>
-                        <!-- <small id="role-help" class="text-muted">Project Url</small> -->
                         <input type="text" class="form-control form-control-sm" id="l-url" aria-describedby=""
                             placeholder="Site specific project url">
+                    </div>
+                <button type="button" class="btn del-btn" onclick="delItem(this)">X</button>
+                </div>
+            </div>
+            <div class="add-loc-container">
+                <button type="button" class="btn small-btn-custom loc-btn" onclick="addField('loc')">Add Location</button>
+            </div>
+            <div class="form-group">
+                <label for="images" class="med-text">Images </label>
+                <textarea class="form-control input-lg" id="images" aria-describedby="" placeholder="Paste urls to public images, each separated by a comma and a space."></textarea>
+            </div>
+            <label for="location" class="med-text">Additional Media</label>
+            <div class="form-group med-container" id='med-container'>
+                <div class="form-row med-row" id='med1'>
+                    <div class="col-md-4 mb-3">
+                        <label for="l-name">Title</label>
+                        <input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
+                            placeholder="Title">
+
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        <label for="l-url">Url</label>
+                        <input type="text" class="form-control form-control-sm" id="am-url" aria-describedby=""
+                            placeholder="Link to media">
+                    </div>
+                    <div class="dropdown">
+                        <div class="btn custom-dropdown small-btn-custom dropdown-toggle" id="medbtn1"
+                            data-toggle="dropdown">
+                            Media Type
+                    </div >
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" onclick="selectMedia(this)">Text Documemnt</a>
+                            <a class="dropdown-item" onclick="selectMedia(this)">Video</a>
+                            <a class="dropdown-item" onclick="selectMedia(this)">Image</a>
+                            <a class="dropdown-item" onclick="selectMedia(this)">Audio</a>
+                            <a class="dropdown-item" onclick="selectMedia(this)">Online work</a>
+                            <a class="dropdown-item" onclick="selectMedia(this)">None</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="add-loc-container">
-                <button type="button" class="btn small-btn-custom loc-btn">Add Location</button>
+                <button type="button" class="btn small-btn-custom loc-btn" onclick="addField('med')">Add Media</button>
             </div>
-            <div class="form-group">
-                <label for="images">Images </label>
-                <textarea class="form-control input-lg" id="images" aria-describedby="" placeholder="Paste urls to public images, each separated by a comma and a space."></textarea>
-            </div>
-            <label for="location">Additional Media</label>
-            <div class="form-group">
-                    <div class="form-row">
-                        <div class="col-md-4 mb-3">
-                            <label for="l-name">Title</label>
-                            <!-- <small id="role-help" class="text-muted">Site Name</small> -->
-                            <input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
-                                placeholder="Title">
-    
-                        </div>
-                        <div class="col-md-5 mb-3">
-                            <label for="l-url">Url</label>
-                            <!-- <small id="role-help" class="text-muted">Project Url</small> -->
-                            <input type="text" class="form-control form-control-sm" id="am-url" aria-describedby=""
-                                placeholder="Link to media">
-                        </div>
-                    </div>
-                </div>
-                <div class="add-loc-container">
-                        <button type="button" class="btn small-btn-custom loc-btn">Add Media</button>
-                    </div>
             <button type="submit" class="btn btn-primary">Submit</button>
     </div>
     </form>
     </div>
+</div>
 </body>
-
 </html>
