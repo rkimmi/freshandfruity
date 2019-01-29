@@ -32,8 +32,12 @@
 }
 
 .project-modal {
-  width: 20%;
+  width: 17%;
   margin-top: 6%;
+  margin-bottom: 6%;
+  border: 1px solid magenta;
+  border-radius: 8px;
+  margin-left: 1%;
 }
 
 #modal-icon {
@@ -41,7 +45,7 @@
 }
 
 .modal-items {
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 .modal-toggle {
@@ -51,17 +55,24 @@
 
 .title-selected {
   /* color: white; */
-  border-bottom: 2px solid magenta;
+  border-bottom: 1px solid magenta;
 }
 
 .modal-title {
-  padding-left: 20px;
+  padding-left: 9px;
   padding-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 18px;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: inherit;
   cursor: pointer;
+  font-size: 1em;
+  color: magenta;
+}
+
+.modal-title:hover {
+  background-color: magenta;
+  color: white;
 }
 
 .form-container {
