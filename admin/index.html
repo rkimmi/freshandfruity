@@ -23,16 +23,18 @@
 <body>
         <script src='script.js' ></script>
         <div class="app">
-        <div id='modal' class="project-modal modal-true">
-                <div class="toggle-true" onclick="toggleModal()">V</div>
+          <div class="header">
+            <img class="header-logo" src='../favicon.png' />
+          </div>
+        <div id='modal' class="project-modal">
             <div id='modal-items' class='modal-items'>
-            <div class="modal-title title-selected">New Project</div>
-            <div class="modal-title">Edit Project</div>
+            <div id='new-header' class="modal-title title-selected" onclick="selectForm('new')">New Project</div>
+            <div id='edit-header' class="modal-title" onclick="selectForm('edit')">Edit Project</div>
         </div>
          </div>
-
         <div class="form-container">
-        <div class="form-title">New Project</div>
+        <div id='form-title' class="form-title">New Project</div>
+        <div id='sub-title' class="form-title"></div>
         <form onsubmit='return makeJson(this)'>
             <div class="form-group">
                 <label for="title">Project Title</label>

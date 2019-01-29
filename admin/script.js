@@ -1,16 +1,14 @@
 // import { contDiv } from './templates.js'
 
-
 let state = {
-    contCount: 1,
-    locCount: 1,
-    medCount: 1
+  contCount: 1,
+  locCount: 1,
+  medCount: 1
 }
 
 let modalShowing = true
 
-const contDiv = 
-`<div class="col-md-5 mb-3">
+const contDiv = `<div class="col-md-5 mb-3">
 <small id="role-help" class="text-hidden"></small>
 <input type="text" class="form-control form-control-sm" id="c-name" aria-describedby=""
     placeholder="Name">
@@ -22,8 +20,7 @@ const contDiv =
 </div>
 <button type="button" class="btn del-btn btn-margin" onclick="delItem(this)">X</button>`
 
-const locDiv =
-`<div class="col-md-4 mb-3">
+const locDiv = `<div class="col-md-4 mb-3">
     <input type="text" class="form-control form-control-sm" id="l-name" aria-describedby=""
         placeholder="Site Name">
 </div>
@@ -33,9 +30,7 @@ const locDiv =
 </div>
 <button type="button" class="btn del-btn btn-margin" onclick="delItem(this)">X</button>`
 
-
-const medDiv = 
-`<div class="col-md-4 mb-3">
+const medDiv = `<div class="col-md-4 mb-3">
 <input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
     placeholder="Title">
 </div>
@@ -60,75 +55,86 @@ const medDiv =
 <button type="button" class="btn del-btn del-btn btn-margin" onclick="delItem(this)">X</button>
 </div>`
 
-document.addEventListener("DOMContentLoaded", getProjects())
+document.addEventListener('DOMContentLoaded', getProjects())
 
 function addField(name) {
-    let toAppend;
-    name === 'loc' ? toAppend = locDiv :
-    name === 'cont' ? toAppend = contDiv :
-    name === 'med' ? toAppend = medDiv : false
-    state[`${name}Count`]++
-    const field = $(`#${name}-container`)
-    const d = document.createElement("div")
-    field.append(d)
-    d.className = `form-row ${name}-row`
-    d.id = `${name}${state[`${name}Count`]}`
-    $(`#${name}${state[`${name}Count`]}`).append(toAppend)
+  let toAppend
+  name === 'loc'
+    ? (toAppend = locDiv)
+    : name === 'cont'
+    ? (toAppend = contDiv)
+    : name === 'med'
+    ? (toAppend = medDiv)
+    : false
+  state[`${name}Count`]++
+  const field = $(`#${name}-container`)
+  const d = document.createElement('div')
+  field.append(d)
+  d.className = `form-row ${name}-row`
+  d.id = `${name}${state[`${name}Count`]}`
+  $(`#${name}${state[`${name}Count`]}`).append(toAppend)
 }
 
-
 function delItem(item) {
-    const contFields = $(`#${item.parentElement.id}`)
-    contFields.remove()
-} 
+  const contFields = $(`#${item.parentElement.id}`)
+  contFields.remove()
+}
 
 function toggleCat(id) {
-    const cat = $(`#${id}`)
-    cat[0].className.includes('cat-selected') ?
-        (cat.removeClass('cat-selected'),
-        removeHover(cat)) :
-        (cat.css('background', 'white'),
-        cat.css('color', 'magenta'),
-        cat.addClass('cat-selected'))
+  const cat = $(`#${id}`)
+  cat[0].className.includes('cat-selected')
+    ? (cat.removeClass('cat-selected'), removeHover(cat))
+    : (cat.css('background', 'white'),
+      cat.css('color', 'magenta'),
+      cat.addClass('cat-selected'))
 }
 
 function removeHover(cat) {
-    setTimeout(() => {
-        cat.css('color', '')
-        cat.css('background', '')
-    }, 1000)
+  setTimeout(() => {
+    cat.css('color', '')
+    cat.css('background', '')
+  }, 1000)
 }
 
 function selectMedia(media) {
-    const text = media.innerText
-    if (media.innerText === 'None') {
-        media.parentElement.previousElementSibling.innerText = 'Media Type'
-    } else {
-        media.parentElement.previousElementSibling.innerText = text
-    }
+  const text = media.innerText
+  if (media.innerText === 'None') {
+    media.parentElement.previousElementSibling.innerText = 'Media Type'
+  } else {
+    media.parentElement.previousElementSibling.innerText = text
+  }
 }
 
 function toggleModal() {
-    const modal = $(`#modal`)
-    const modalCont = $(`#modal-items`)
-    modal[0].className.includes('modal-true') ?
-        (modal.removeClass('modal-true'),
-        modal.addClass('modal-false'),
-        modalCont.css('display', 'none')
-        ) : (
-        modal.removeClass('modal-false'),
-        modal.addClass('modal-true'),
-        modalCont.css('display', '')) 
+  const modal = $(`#modal`)
+  const modalCont = $(`#modal-items`)
+  const modIcon = $(`#modal-icon`)
+  modal[0].className.includes('modal-true')
+    ? (modal.removeClass('modal-true'),
+      modal.addClass('modal-false'),
+      modalCont.css('display', 'none'),
+      modIcon.attr('src', '../chevron-right.png'))
+    : (modal.removeClass('modal-false'),
+      modal.addClass('modal-true'),
+      modalCont.css('display', ''),
+      modIcon.attr('src', '../chevron-left.png'))
 }
 
-function selectTitle() {
-    
+function selectForm(type) {
+  const title = $(`#form-title`)
+  type === 'edit'
+    ? ((title[0].innerText = 'Edit Project'),
+      $(`#edit-header`).addClass('title-selected'),
+      $(`#new-header`).removeClass('title-selected'))
+    : ($(`#new-header`).addClass('title-selected'),
+      $(`#edit-header`).removeClass('title-selected'),
+      (title[0].innerText = 'New Project'))
 }
+
+function selectTitle() {}
 
 function makeJson(formData) {
-    console.log(formData)
+  console.log(formData)
 }
 
-function getProjects() {
-
-}
+function getProjects() {}
