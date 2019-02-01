@@ -48,21 +48,27 @@
   /* display: inline-block; */
 }
 
+#new-header {
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  padding-top: 5px;
+}
+
 .modal-toggle {
   display: flex;
   justify-content: right;
 }
 
 .title-selected {
-  /* color: white; */
-  border-bottom: 1px solid magenta;
+  color: white !important;
+  /* border-bottom: 1px solid magenta; */
+  background-color: #ff8cff;
 }
 
 .modal-title {
   padding-left: 9px;
   padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  /* padding-bottom: 5px; */
   font-size: 18px;
   font-family: inherit;
   cursor: pointer;
@@ -71,7 +77,7 @@
 }
 
 .modal-title:hover {
-  background-color: magenta;
+  background-color: #ff8cff;
   color: white;
 }
 
