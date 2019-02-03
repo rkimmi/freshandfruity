@@ -1,4 +1,8 @@
-// import { contDiv } from './templates.js'
+
+/* global $ */
+// var $ = require("jquery");
+// import $ from "jquery"
+// var request = require('request')
 
 let state = {
   contCount: 1,
@@ -106,18 +110,15 @@ function selectMedia(media) {
 }
 
 function toggleModal() {
-  const modal = $(`#modal`)
-  const modalCont = $(`#modal-items`)
   const modIcon = $(`#modal-icon`)
-  modal[0].className.includes('modal-true')
-    ? (modal.removeClass('modal-true'),
-      modal.addClass('modal-false'),
-      modalCont.css('display', 'none'),
-      modIcon.attr('src', '../chevron-right.png'))
-    : (modal.removeClass('modal-false'),
-      modal.addClass('modal-true'),
-      modalCont.css('display', ''),
-      modIcon.attr('src', '../chevron-left.png'))
+  modIcon[0].className.includes('modal-true')
+    ? (modIcon.removeClass('modal-true'),
+    modIcon.addClass('modal-false'),
+      modIcon.attr('src', 'chev-up.png'))
+    : (modIcon.removeClass('modal-false'),
+    //   modalCont.css('display', ''),
+    modIcon.addClass('modal-true'),
+    modIcon.attr('src', 'chev-down.png'))
 }
 
 function selectForm(type) {
@@ -138,3 +139,55 @@ function makeJson(formData) {
 }
 
 function getProjects() {}
+
+function login(creds) {
+  const baseUrl = 'http://localhost:5984'
+    const loginReq = {
+        name: creds[0].value,
+        password: creds[1].value
+    }
+    // let errDiv = document.getElementById('login-err')
+    $.ajax({
+        type: "POST",
+        url: "https://localhost:5984/_session",
+        body: JSON.stringify(loginReq),
+        contentType: "application/json",
+        // crossDomain: true,
+        // dataType: "json",
+        beforeSend: function(request) {
+          request.setRequestHeader("Access-Control-Allow-Origin", '*'
+          )},
+        success: function (data, status, jqXHR) {
+            console.log(data, status, jqXHR)
+        },
+        error: function (jqXHR, status) {
+            console.log(jqXHR, status)
+            // alert('fail' + status.code)
+        }
+     })
+    //  console.log(JSON.stringify(loginReq))
+//   request.post({
+//   url: `${baseUrl}/_session`,
+//   body: {name: usr, password: psw},
+//   headers: [{
+//     name: 'content-type',
+//     value: 'application/json'
+//   }]
+// }, (err, response, body) =>
+// console.log(err, response, body))
+}
+
+
+// module.exports = {
+//   addField,
+//   delItem,
+//   getProjects,
+//   login,
+//   makeJson,
+//   removeHover,
+//   selectForm,
+//   selectMedia,
+//   selectTitle,
+//   toggleCat,
+//   toggleMedia,
+// }

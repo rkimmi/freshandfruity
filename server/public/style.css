@@ -1,3 +1,5 @@
+/* @import 'node_modules/bootstrap/dist/css/bootstrap.css'; */
+
 .body {
   background-color: #ffc0cb;
 }
@@ -65,7 +67,7 @@
   background-color: #ff8cff;
 }
 
-.modal-title {
+.modal-title, .edit-title {
   padding-left: 9px;
   padding-right: 10px;
   /* padding-bottom: 5px; */
@@ -79,6 +81,13 @@
 .modal-title:hover {
   background-color: #ff8cff;
   color: white;
+}
+
+#modal-icon {
+    margin-top: 6px;
+    margin-left: 0px;
+    height: 15px;
+    width: 15px;
 }
 
 .form-container {
@@ -196,4 +205,60 @@
 .cat-selected::after {
   background-color: white !important;
   color: magenta !important;
+}
+
+.login-container {
+    border: 1px solid magenta;
+    border-radius: 8px;
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 10px 18px rgba(235, 0, 255, 0.1);
+    margin-top: 80px;
+    min-width: 335px;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.log-input {
+    /* width: 65%; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+#login-btn {
+    margin-top: 12px !important;
+    margin-bottom: 5px;
+}
+
+.log-label {
+    font-family: Comic Sans MS, cursive, sans-serif;
+    margin-top: 15px;
+}
+
+.forgot-pss {
+    /* margin-top: 20px; */
+    font-size: 12px;
+    margin-left: auto;
+    margin-right: auto;
+    /* margin-bottom: 15px; */
+}
+
+#login-err {
+    margin-left: auto;
+margin-right: auto;
+}
+
+#login-err-item {
+color: white;
+background-color: #ff8cff;
+padding: 5px;
+border-radius: 8px;
 }

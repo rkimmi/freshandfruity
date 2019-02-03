@@ -5,37 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <!-- <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
-   
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script> 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script> 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-        crossorigin="anonymous">
-    <link rel="stylesheet" type='text/css' href="../style.css" />
+    <!-- <script src='./js/script.js'></script> -->
+    <!-- <script src="bundle.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+    <script src="admin.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+    <link rel="stylesheet" type='text/css' href="/style.css" />
 </head>
-
 <body>
-        <script src='script.js' ></script>
         <div class="app">
           <div class="header">
-            <img class="header-logo" src='../favicon.png' />
+            <img class="header-logo" src='favicon.png' />
           </div>
         <div id='modal' class="project-modal">
             <div id='modal-items' class='modal-items'>
             <div id='new-header' class="modal-title title-selected" onclick="selectForm('new')">New Project</div>
-            <div id='edit-header' class="modal-title" onclick="selectForm('edit')">Edit Project</div>
+            <div class="" style="display: flex;">
+            <div id='edit-header' class="edit-title" onclick="selectForm('edit')">Edit Project</div>
+            <img id='modal-icon' class="modal-true" src="chev-down.png" onclick="toggleModal()"/>
+        </div>
         </div>
          </div>
         <div class="form-container">
         <div id='form-title' class="form-title">New Project</div>
         <div id='sub-title' class="form-title"></div>
-        <form onsubmit='return makeJson(this)'>
+        <form enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label for="title">Project Title</label>
                 <input type="text" class="form-control" id="title" aria-describedby="" placeholder="Project Title">
@@ -178,7 +175,7 @@
             <div class="add-loc-container">
                 <button type="button" class="btn small-btn-custom loc-btn" onclick="addField('med')">Add Media</button>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button formaction="/admin" type="submit" class="btn btn-primary">Submit</button>
     </div>
     </form>
     </div>
