@@ -149,14 +149,20 @@ function login(creds) {
     // let errDiv = document.getElementById('login-err')
     $.ajax({
         type: "POST",
-        url: "https://localhost:5984/_session",
-        body: JSON.stringify(loginReq),
+        url: `${baseUrl}/_session`,
+        data: JSON.stringify(loginReq),
         contentType: "application/json",
+        crossDomain: true,
+        dataType: 'json',
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        },
+        // accept: 'application/json',
         // crossDomain: true,
         // dataType: "json",
-        beforeSend: function(request) {
-          request.setRequestHeader("Access-Control-Allow-Origin", '*'
-          )},
+        // beforeSend: function(request) {
+        //   request.setRequestHeader("Access-Control-Allow-Origin", '*'
+        //   )},
         success: function (data, status, jqXHR) {
             console.log(data, status, jqXHR)
         },
