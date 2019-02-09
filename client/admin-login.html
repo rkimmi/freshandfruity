@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src='admin.js'></script>
+    <script src='/admin.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
@@ -21,17 +21,18 @@
 </head>
 <body>
     <div class="login-container">
-        <form method="POST" action='/admin' class="form" id="login-form" onsubmit="return login(this)">
-            <img class="header-logo" src="favicon.png"/>
+            <!-- method="POST" action='/admin'  -->
+        <form class="form" id="login-form">
+            <img class="header-logo" src="/favicon.png"/>
             <div id="login-err"></div>
             <div class="log-input">
-            <input name='secretuser' class="form-control" id="secret-usr" type="text" placeholder="Email"/>
+            <input name='name' class="form-control" id="secret-usr" type="text" placeholder="Email"/>
         </div>
         <div class="log-input">
-            <input name='secretpsw' class="form-control" id="secret-psw" type="password" placeholder="Password"/>
+            <input name='password' class="form-control" id="secret-psw" type="password" placeholder="Password"/>
         </div>
         <a class="forgot-pss" href="">Forgot Password?</a>
-        <button formaction="/admin" type="submit" id='login-btn' class="btn small-btn-custom">Login</button>
+        <button type="button" id='login-btn' class="btn small-btn-custom" onclick="login()">Login</button>
     </form>
     </div>
 </html>

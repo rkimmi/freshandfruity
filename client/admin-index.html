@@ -10,28 +10,32 @@
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script src="admin.js"></script>
+    <script src="/admin.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-    crossorigin="anonymous">
-    <link rel="stylesheet" type='text/css' href="/style.css" />
+crossorigin="anonymous">
+<link rel="stylesheet" type='text/css' href="/style.css" />
 </head>
+
 <body>
-        <div class="app">
-          <div class="header">
-            <img class="header-logo" src='favicon.png' />
-          </div>
-        <div id='modal' class="project-modal">
-            <div id='modal-items' class='modal-items'>
-            <div id='new-header' class="modal-title title-selected" onclick="selectForm('new')">New Project</div>
-            <div class="" style="display: flex;">
-            <div id='edit-header' class="edit-title" onclick="selectForm('edit')">Edit Project</div>
-            <img id='modal-icon' class="modal-true" src="chev-down.png" onclick="toggleModal()"/>
+    <div class="app" >
+            <div id='new-header' class="nav-title title-selected " onclick="selectForm('new')">New Project</div>
+        <div id="modal-container" class="modal-false" style="display: flex; flex-direction: row;" onmouseleave="hideModal()">
+                <div id='edit-header' class="nav-title modal-false" onclick="showModal()" onmouseover="showModal()">Edit
+                Project </div>
+            <!-- <img id='modal-icon' class="modal-true" src="/MENU.png" /> -->
+            <div id='modal' class="project-modal" >
+                    <div id='modal-items' class='modal-items'>
+                        <div id='projects-list' class='projects-list' style="flex-direction: column;">
+                        </div>
+                    </div>
+                </div>
+        <div class="header" style="display: flex;">
+            <img class="header-logo" src='/favicon.png' />
         </div>
-        </div>
-         </div>
+    </div>
         <div class="form-container">
+                <div id='edit-title' class="editing-title"></div>
         <div id='form-title' class="form-title">New Project</div>
-        <div id='sub-title' class="form-title"></div>
         <form enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label for="title">Project Title</label>
@@ -175,7 +179,7 @@
             <div class="add-loc-container">
                 <button type="button" class="btn small-btn-custom loc-btn" onclick="addField('med')">Add Media</button>
             </div>
-            <button formaction="/admin" type="submit" class="btn btn-primary">Submit</button>
+            <button  type="submit" class="btn btn-primary">Submit</button>
     </div>
     </form>
     </div>
