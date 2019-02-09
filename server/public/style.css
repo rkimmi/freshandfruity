@@ -37,6 +37,9 @@
 .project-modal {
   position: fixed;
   margin-top: 50px;
+  max-height: 500px;
+  overflow: auto;
+  box-shadow: 18px 32px 17px rgba(235, 0, 255, 0.04);
   /* top: 0vh;
   left: 0vw;
   margin-top: 2%; */
@@ -58,6 +61,7 @@
   height: 20%;
   margin-left: 120px;
   margin-right: 120px;
+  position: absolute;
 }
 
 #modal-icon {
@@ -73,7 +77,7 @@
 .modal-items {
   /* display: inline-block; */
   background-color: white;
-  box-shadow: 18px 32px 17px rgba(235, 0, 255, 0.04);
+  /* box-shadow: 18px 32px 17px rgba(235, 0, 255, 0.04); */
   border-bottom-left-radius: 8px;
 border-bottom-right-radius: 8px;
 }
@@ -130,7 +134,7 @@ border-bottom-right-radius: 8px;
 
 .editing-title {
   font-size: 30px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   /* color: #f77fff; */
   font-family: 'Comic Sans MS', cursive, sans-serif;
   /* background-color: rgba(235, 0, 255, 0.1); */
@@ -160,7 +164,7 @@ border-bottom-right-radius: 8px;
   /* border: 2px solid #fa7088; */
   background-color: white;
   margin-top: 5%;
-  /* margin-left: auto; */
+  margin-left: auto;
 }
 
 .form-title {
@@ -255,6 +259,10 @@ border-bottom-right-radius: 8px;
 }
 
 .btn-margin {
+  margin-top: -30px;
+}
+
+.dd-margin {
   margin-top: -45px;
 }
 

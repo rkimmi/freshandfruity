@@ -56,16 +56,15 @@ const medDiv = `<div class="col-md-4 mb-3">
     <a class="dropdown-item" onclick="selectMedia(this)">None</a>
 </div>
 </div>
-<button type="button" class="btn del-btn del-btn btn-margin" onclick="delItem(this)">X</button>
+<button type="button" class="btn del-btn del-btn dd-margin" onclick="delItem(this)">X</button>
 </div>`
 
-// document.addEventListener('load', getInfo())
+// document.addEventListener('', getInfo())
 // document.addEventListener('load', console.log('yea loaded'))
 
-$(document).ready(() =>{
+$(document).ready(() => {
   getInfo()
-}
-)
+})
 
 
 function addField(name) {
@@ -134,13 +133,13 @@ function hideModal() {
 }
 
 function selectForm(type, id, title) {
-  console.log(title)
   const formTitle = $(`#form-title`)
   type === 'edit'
     ? ((formTitle[0].innerText = 'Edit Project'),
       $(`#edit-header`).addClass('title-selected'),
       $(`#new-header`).removeClass('title-selected'),
-      $(`#edit-title`)[0].innerText = title)
+      $(`#edit-title`)[0].innerText = title,
+      getProjectInfo(id))
     : ($(`#new-header`).addClass('title-selected'),
       $(`#edit-title`)[0].innerText = '',
       $(`#edit-header`).removeClass('title-selected'),
@@ -148,86 +147,142 @@ function selectForm(type, id, title) {
       (formTitle[0].innerText = 'New Project'))
 }
 
+function getProjectInfo(id) {
+
+}
 
 function makeJson(formData) {
   console.log(formData)
 }
 
+function readCookie(name) { // return fruity-cookie value
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
 function getInfo() {
-  const token = window.localStorage.getItem('token')
-  token ? 
-  getUser(token) : 
+  // const token = window.localStorage.getItem('fruity-token')
+  // const cookie = document.cookie
+  // const cookie = document.cookie.match(/^(.*;)?\s*fruity-cookie\s*=\s*[^;]+(.*)?$/)
+  const cookie = readCookie('fruity-cookie')
+  cookie ? 
+  getUser(cookie) : 
   window.location = 'http://localhost:3000/admin/login'
   }
 
-function getUser(token) {
-  console.log('nice one, now verify token -->' + token)
-  getProjects()
-//   $.ajax({
-//     type: "POST",
-//     url: `${baseUrl}/_session`,
-//     data: JSON.stringify(loginReq),
-//     contentType: "application/json",
-//     crossDomain: true,
-//     dataType: 'json',
-//     headers: {
-//         "Access-Control-Allow-Origin": "*",
-//         "Access-Control-Allow-Method": "POST",
-//         // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-//         "Access-Control-Allow-Headers": "Authorization",
-//         "Access-Control-Allow-Credentials": "true"
-//     },
-//     success: function (data, status, jqXHR) {
-//         console.log('success', data, status, jqXHR)
-// if succes, getProjects()
-//     },
-//     error: function (jqXHR, status) {
-//         // console.log('error', jqXHR, status.code)
-//         console.log(jqXHR, status)
-//         // alert('fail' + status.code)
-//      REDIRECT window.location = 'http://localhost:3000/admin/login'
-//     }
-//  })
+function getUser(cookie) {
+  console.log('nice one, now verify token -->' + cookie)
+  // GET SESSION
+  getProjectList()
+  const baseUrl = 'http://localhost:5984'
+  $.ajax({
+    type: "GET",
+    url: `${baseUrl}/_session`,
+    data: JSON.stringify(loginReq),
+    contentType: "application/json",
+    crossDomain: true,
+    dataType: 'json',
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Method": "POST",
+        // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "Cookie": `fruity-cookie=${cookie}`
+    },
+    success: function (data, status, jqXHR) {
+        console.log('success', data, status, jqXHR)
+      //  getProjectList()
+    },
+    error: function (jqXHR, status) {
+        // console.log('error', jqXHR, status.code)
+        console.log(jqXHR, status)
+        // alert('fail' + status.code)
+    }
+ })
 }
 
 function login(creds) {
   const name = document.getElementById('secret-usr').value
   const psw = document.getElementById('secret-psw').value
-  const baseUrl = 'http://localhost:5984'
-    const loginReq = {
-        name: name,
-        password: psw
-    }
-    console.log(JSON.stringify(loginReq))
-    let errDiv = document.getElementById('login-err')
-    $.ajax({
-        type: "POST",
-        url: `${baseUrl}/_session`,
-        data: JSON.stringify(loginReq),
-        contentType: "application/json",
-        crossDomain: true,
-        dataType: 'json',
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Method": "POST",
-            // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Authorization",
-            "Access-Control-Allow-Credentials": "true"
-        },
-        success: function (data, status, jqXHR) {
-            console.log('success', data, status, jqXHR)
-        },
-        error: function (jqXHR, status) {
-            // console.log('error', jqXHR, status.code)
-            console.log(jqXHR, status)
-            // alert('fail' + status.code)
-        }
-     })
+  // const baseUrl = 'http://localhost:5984'
+  //   const loginReq = {
+  //       name: name,
+  //       password: psw
+  //   }
+  //   console.log(JSON.stringify(loginReq))
+  //   let errDiv = document.getElementById('login-err')
+  //   $.ajax({
+  //       type: "POST",
+  //       url: `${baseUrl}/_session?next=/admin`,
+  //       data: JSON.stringify(loginReq),
+  //       contentType: "application/json",
+  //       crossDomain: true,
+  //       dataType: 'json',
+  //       headers: {
+  //           "Access-Control-Allow-Origin": "*",
+  //           "Access-Control-Allow-Method": "POST",
+  //           // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
+  //           "Access-Control-Allow-Headers": "Authorization",
+  //           "Access-Control-Allow-Credentials": "true"
+  //       },
+  //       success: function (data, status, jqXHR) {
+  //           console.log('success', data, status, jqXHR)
+  // set cookie!
+  //       },
+  //       error: function (jqXHR, status) {
+  //           // console.log('error', jqXHR, status.code)
+  //           console.log(jqXHR, status)
+  //           // alert('fail' + status.code)
+  //       }
+  //    })
+document.cookie = 'fruity-cookie=authgoeshere'
+window.location = 'http://localhost:3000/admin'
 }
 
-function getProjects() {
-  console.log('getProjects called')
-  populateProjects()
+function logout() {
+  // window.localStorage.removeItem('fruity_token')
+  // window.location = 'http://localhost:3000/admin/login'
+  const baseUrl = 'http://localhost:5984'
+  const cookie = readCookie('fruity-cookie')
+  console.log(cookie)
+  $.ajax({
+    type: "DELETE",
+    // Accept: 'application/json',
+    url: `${baseUrl}/_session?next=/admin/login`,
+    contentType: "application/json",
+    // Cookie: '',
+    crossDomain: true,
+    dataType: 'json',
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Method": "POST",
+        // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization",
+        "Access-Control-Allow-Credentials": "true",
+        "Cookie": cookie
+    },
+    success: function (data, status, jqXHR) {
+        console.log('success', data, status, jqXHR)
+    },
+    error: function (jqXHR, status) {
+        // console.log('error', jqXHR, status.code)
+        console.log(jqXHR, status)
+        // alert('fail' + status.code)
+    }
+ })
+ window.location = 'http://localhost:3000/admin/login'
+}
+
+function getProjectList() {
+  console.log('getProjectList called')
+  populateProjectList()
 //   const baseUrl = 'http://localhost:5984'
 //   const req = {
 //       selector: {
@@ -261,7 +316,7 @@ function getProjects() {
 //  })
 }
 
-function populateProjects(projects) {
+function populateProjectList(projects) {
   console.log('populate projects called')
   const tempPro = [{
       _id: "d2191621ffb360a211d836dc4c011b6d",
@@ -277,7 +332,6 @@ function populateProjects(projects) {
     }
   ]
   let div = $(`#projects-list`)
-  let other = $(`#banana`)
   tempPro.forEach(project => {
     const d = document.createElement('div')
     d.className = `modal-title title-small`
