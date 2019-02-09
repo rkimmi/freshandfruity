@@ -7,7 +7,7 @@
 .app {
   display: flex;
   flex-direction: row;
-  /* background-image: linear-gradient(white, magenta); */
+  background-image: linear-gradient(white, #ff6aff)
 }
 
 .header {
@@ -73,7 +73,7 @@
 .modal-items {
   /* display: inline-block; */
   background-color: white;
-  box-shadow: 18px 32px 17px rgba(235, 0, 255, 0.1);
+  box-shadow: 18px 32px 17px rgba(235, 0, 255, 0.04);
   border-bottom-left-radius: 8px;
 border-bottom-right-radius: 8px;
 }
@@ -131,13 +131,13 @@ border-bottom-right-radius: 8px;
 .editing-title {
   font-size: 30px;
   margin-bottom: 15px;
-  color: #f77fff;
+  /* color: #f77fff; */
   font-family: 'Comic Sans MS', cursive, sans-serif;
-  background-color: rgba(235, 0, 255, 0.1);
-  padding-left: 10px;
-  margin-left: -25px;
-  box-shadow: 0px 10px 11px rgba(235, 0, 255, 0.1);
-  background-image: linear-gradient(white, #faddfe);
+  /* background-color: rgba(235, 0, 255, 0.1); */
+  /* padding-left: 10px;
+  margin-left: -12px; */
+  /* box-shadow: 0px 10px 11px rgba(235, 0, 255, 0.1); */
+  /* background-image: linear-gradient(white, #faddfe); */
   width: 110%
   /* border-top-right-radius: 8px;
   border-bottom-right-radius: 8px; */
