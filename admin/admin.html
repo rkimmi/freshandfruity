@@ -13,12 +13,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="/admin.js"></script>
+    <script src="admin.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
-    <link rel="stylesheet" type='text/css' href="/style.css" />
+    <link rel="stylesheet" type='text/css' href="style.css" />
 </head>
 
 <body>
@@ -35,14 +35,14 @@
                 </div>
             </div>
             <div class="header" style="display: flex;">
-                <img class="header-logo" src='/favicon.png' />
+                <img class="header-logo" src='favicon.png' />
                 <div id='logout-btn' class="nav-title" style="margin-right: 1%;" onclick="logout()">Log Out</div>
             </div>
         </div>
         <div class="form-container">
             <div id='edit-title' class="editing-title"></div>
             <div id='form-title' class="form-title">New Project</div>
-            <form enctype="multipart/form-data" method="post">
+            <form enctype="multipart/form-data" method="post" onsubmit="makeJson(this)">
                 <div class="form-group">
                     <label for="title">Project Title</label>
                     <input type="text" class="form-control" id="title" aria-describedby="" placeholder="Project Title">
@@ -60,13 +60,13 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md-4 mb-3">
-                        <label for="s-date">Start Date</label>
-                        <input type="text" class="form-control form-control-sm" id="s-date" aria-describedby=""
+                        <label for="startDate">Start Date</label>
+                        <input type="text" class="form-control form-control-sm" id="startDate" aria-describedby=""
                             placeholder="DD/MM/YYYY">
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="e-date">End Date</label>
-                        <input type="text" class="form-control form-control-sm" id="e-date" aria-describedby=""
+                        <label for="endDate">End Date</label>
+                        <input type="text" class="form-control form-control-sm" id="endDate" aria-describedby=""
                             placeholder="DD/MM/YYYY">
                     </div>
                 </div>
@@ -167,7 +167,6 @@
                             <label for="l-name">Title</label>
                             <input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
                                 placeholder="Title">
-
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="l-url">Url</label>
@@ -192,7 +191,7 @@
                 <div class="add-loc-container">
                     <button type="button" class="btn small-btn-custom loc-btn" onclick="addField('med')">Add Media</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" >Submit</button>
         </div>
         </form>
     </div>
