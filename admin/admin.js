@@ -1,8 +1,112 @@
+const tempData = {
+  "_id": "d2191621ffb360a211d836dc4c011b6d",
+  "_rev": "10-a8148dc554ced985a8fc919a4a084ecf",
+  "title": "Blame it on the rain: a one night only film screening",
+  "description": "Blame it on the rain. A one night only film screening presented by Fresh and Fruity and JPEG2000 as part of Till the World Ends",
+  "year": "2017",
+  "text": "Plants in water asymmetrically climbing and twisting towards the light. Break. Broken. Fall. Smash. Shatter. Spill the tea. Know yourself & love urself. My heart is so broken. I need to 3D print a new one. What purpose does art have? Blame it on the rain. Performing self management rituals. ASMR videos of baby animals interacting. Having empathy. The water became too warm the algae vomited itself out of the coral. Helplessness. Brains spill out like spaghetti. Mom’s spaghetti. Spaghetti on top. Spaghetti on pizza. Kill the poor SPAGHETT. Aliens emerging from Papatuanuku’s womb coming to save us. Performing or serving?",
+  "assocMedia": [
+    {
+      "title": "Media",
+      "url": "Media url",
+      "type": "Text Document"
+    }
+  ],
+  "startDate": "10/10/2017",
+  "endDate": "20/12/2017",
+  "contributors": [
+    {
+      "name": "Orr Amran",
+      "role": "artist"
+    },
+    {
+      "name": "Sophie Cassar",
+      "role": "artist"
+    },
+    {
+      "name": "Christian Noelle Charles",
+      "role": "artist"
+    },
+    {
+      "name": "Hannah Hallam-Eames",
+      "role": "artist"
+    },
+    {
+      "name": "Claire Estermann",
+      "role": "artist"
+    },
+    {
+      "name": "Ana Iti",
+      "role": "artist"
+    },
+    {
+      "name": "Nunzio",
+      "role": "artist"
+    },
+    {
+      "name": "Maddy Plimmer",
+      "role": "artist"
+    },
+    {
+      "name": "Autumn Royal",
+      "role": "artist"
+    },
+    {
+      "name": "Talia Smith",
+      "role": "artist"
+    },
+    {
+      "name": "Kalinda Vary",
+      "role": "artist"
+    },
+    {
+      "name": "Layne Waerea",
+      "role": "artist"
+    },
+    {
+      "name": "Nicole Webber",
+      "role": "artist"
+    },
+    {
+      "name": "JPEG2000",
+      "role": "facilitator"
+    },
+    {
+      "name": "Fresh and Fruity",
+      "role": "facilitator"
+    }
+  ],
+  "categories": [
+    "film screening",
+    "text",
+    "workshop / hui",
+    ""
+  ],
+  "locations": [ {
+    "name": "The Physics Room",
+    "url": "url here"
+  }
+  ],
+  "images": [
+    "link1",
+    "link2",
+    "link3"
+  ],
+  "scope": "online-onsite"
+}
 
-/* global $ */
-// var $ = require("jquery");
-// import $ from "jquery"
-// var request = require('request')
+const catAbr = [
+  {name: 'Text', id: 'cat-T'},
+  {name: 'Installation', id: 'cat-W'},
+  {name: 'Performance', id: 'cat-P'},
+  {name: 'Sculpture', id: 'cat-S'},
+  {name: 'Audio', id: 'cat-A'},
+  {name: 'Jewellery', id: 'cat-J'},
+  {name: 'Video', id: 'cat-V'},
+  {name: 'Fashion', id: 'cat-F'},
+  {name: 'Film Screening', id: 'cat-FS'},
+  {name: 'Workshop / Hui', id: 'cat-WH'},
+]
 
 let state = {
   contCount: 1,
@@ -11,39 +115,43 @@ let state = {
 }
 
 let modalShowing = true
+const baseUrl = 'http://localhost:5984'
+
+let editing = false
+let projectId = null
 
 const contDiv = `<div class="col-md-5 mb-3">
 <small id="role-help" class="text-hidden"></small>
-<input type="text" class="form-control form-control-sm" id="c-name" aria-describedby=""
+<input type="text" class="form-control form-control-sm c-name" id="c-name" aria-describedby=""
     placeholder="Name">
 </div>
 <div class="col-md-5 mb-3">
 <small id="role-help" class="text-muted"></small>
-<input type="text" class="form-control form-control-sm" id="c-role" aria-describedby=""
+<input type="text" class="form-control form-control-sm c-role" id="c-role" aria-describedby=""
     placeholder="Artist" value="Artist">
 </div>
 <button type="button" class="btn del-btn btn-margin" onclick="delItem(this)">X</button>`
 
 const locDiv = `<div class="col-md-4 mb-3">
-    <input type="text" class="form-control form-control-sm" id="l-name" aria-describedby=""
+    <input type="text" class="form-control form-control-sm l-name" id="l-name" aria-describedby=""
         placeholder="Site Name">
 </div>
 <div class="col-md-5 mb-3">
-    <input type="text" class="form-control form-control-sm" id="l-url" aria-describedby=""
+    <input type="text" class="form-control form-control-sm l-url" id="l-url" aria-describedby=""
         placeholder="Site specific project url">  
 </div>
 <button type="button" class="btn del-btn btn-margin" onclick="delItem(this)">X</button>`
 
 const medDiv = `<div class="col-md-4 mb-3">
-<input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
+<input type="text" class="form-control form-control-sm am-title" id="am-title" aria-describedby=""
     placeholder="Title">
 </div>
 <div class="col-md-5 mb-3">
-<input type="text" class="form-control form-control-sm" id="am-url" aria-describedby=""
+<input type="text" class="form-control form-control-sm am-url" id="am-url" aria-describedby=""
     placeholder="Link to media">
 </div>
 <div class="dropdown">
-<div class="btn custom-dropdown dd-menu-margin small-btn-custom dropdown-toggle dropdownMenudiv"
+<div id='medbtn'class="medbtn btn custom-dropdown dd-menu-margin small-btn-custom dropdown-toggle dropdownMenudiv"
     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Media Type
 </div>
@@ -65,7 +173,6 @@ const medDiv = `<div class="col-md-4 mb-3">
 $(document).ready(() => {
   getInfo()
 })
-
 
 function addField(name) {
   let toAppend
@@ -136,23 +243,28 @@ function selectForm(type, id, title) {
       $(`#edit-header`).addClass('title-selected'),
       $(`#new-header`).removeClass('title-selected'),
       $(`#edit-title`)[0].innerText = title,
+      editing = true,
+      projectId = id,
       getProjectInfo(id))
     : ($(`#new-header`).addClass('title-selected'),
       $(`#edit-title`)[0].innerText = '',
       $(`#edit-header`).removeClass('title-selected'),
+      editing = false,
+      projectId = createGuid()
       (formTitle[0].innerText = 'New Project'))
 }
 
 function getProjectInfo(id) {
+  console.log('hello')
   // combine all /_find queries, send req, and callback
-    const baseUrl = 'http://localhost:5984'
-    const req = {
-      selector: {
-        _id: {
-          "$eq": id
-        }
+  populateEdit()
+  const req = {
+    selector: {
+      _id: {
+        "$eq": id
       }
     }
+  }
   $.ajax({
     type: "POST",
     url: `${baseUrl}/_find`,
@@ -161,46 +273,191 @@ function getProjectInfo(id) {
     crossDomain: true,
     dataType: 'json',
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Method": "POST",
+      // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Authorization",
+      "Access-Control-Allow-Credentials": "true"
+    },
+    success: function (data, status, jqXHR) {
+      console.log('success', data, status, jqXHR)
+      // populateEdit(data)
+    },
+    error: function (jqXHR, status) {
+      // console.log('error', jqXHR, status.code)
+      console.log('get projects post failed' + jqXHR, status)
+      // alert('fail' + status.code)
+    }
+    
+  })
+}
+
+function populateEdit(project) {
+  // using tempData until project complete
+  const idFields = [
+    'title',
+    'description',
+    'year', 'startDate',
+    'endDate',
+    'text'
+  ]
+  for (let i = 0; i < idFields.length; i++) {
+    const inputName = idFields[i]
+    const input = document.getElementById(idFields[i])
+    input.value = tempData[inputName]
+  }
+  $(`#${tempData.scope}`)[0].checked = true
+  tempData.contributors.forEach((contributor, idx) => {
+    populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
+  })
+  tempData.locations.forEach((location, idx) => {
+    populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
+  })
+  tempData.assocMedia.forEach((media, idx) => {
+    populateMultiple(media, 'med', idx, 'am-title', 'am-url', 'medbtn')
+  })
+  $(`#images`)[0].value = tempData.images.toString()
+  for (let i = 0; i < catAbr.length; i++) {
+    for (let j = 0; j < tempData.categories.length; j++) {
+      let category = tempData.categories[j] 
+      if (category === catAbr[i].name.toLowerCase()) {
+        $(`#${catAbr[i].id}`).addClass('cat-selected') 
+      }
+    }
+  }
+}
+
+function populateMultiple(item, short, idx, field1, field2, field3) {
+  let inputCount = $(`.${field1}`).length
+  if (idx === 0) {
+    $(`.${field1}`)[idx].value = item[field1.split('-')[1]]
+    $(`.${field2}`)[idx].value = item[field2.split('-')[1]]
+    field3 ? $(`.${field3}`)[idx].innerText = item.type : '' // only for media select
+    inputCount++
+  }
+  else if (idx <= inputCount) { // previndex
+    addField(short)
+    $(`.${field1}`)[idx].value = item[field1.split('-')[1]]
+    $(`.${field2}`)[idx].value = item[field2.split('-')[1]]
+    field3 ? $(`.${field3}`)[idx].innerText = item.type : ''
+  }
+}
+
+// function makeJson(formData) {
+  $('#admin-form').on('submit', function(e) {
+  const form = {
+    contributors: [],
+    locations: [],
+    assocMedia: [],
+    images: [],
+    categories: [],
+    scope: ''
+  }
+  const idFields = [
+    'title',
+    'description',
+    'year', 'startDate',
+    'endDate',
+    'text'
+  ]
+  let contributor = {}
+  let location = {}
+  let assocMedia = {}
+  for (let i = 0; i < formData.length; i++) {
+    const input = formData[i]
+    switch (input.id) {
+      case 'images':
+        form.images = (input.value.split(', ') || input.value.split(',') )
+        break;
+      case 'c-name':
+        contributor.name = input.value
+        break;
+      case 'c-role':
+        contributor.role = input.value
+        const newCont = Object.assign({}, contributor)
+        form.contributors.push(newCont)
+        break;
+      case 'l-name':
+        location.name = input.value
+        break;
+      case 'l-url':
+        location.url = input.value
+        const newLoc = Object.assign({}, location)
+        form.locations.push(newLoc)
+        break;
+      case 'am-title':
+        assocMedia.title = input.value
+        break;
+      case 'am-url':
+        assocMedia.url = input.value
+        break;
+      case 'medbtn':
+        input.innerText === 'Media Type ' ?
+          assocMedia.type = ''
+          : assocMedia.type = input.innerText
+        const newAssocMed = Object.assign({}, assocMedia)
+        form.assocMedia.push(newAssocMed)
+        break;
+    }
+    if (input.id.includes('cat') && input.className.includes('cat-selected')) {
+      form.categories.push(input.innerText)
+    }
+    else if (input.className.includes('form-check-input') && input.checked) {
+      form.scope = input.id
+    }
+      for (let j = 0; j < idFields.length; j++) {
+        if (formData[i].id === idFields[i]) {
+          form[input.id] = input.value
+        }
+      }
+    }
+   const formatted = JSON.stringify(form)
+   sendProject(formatted, editing, projectId)
+  })
+
+
+function sendProject(form, editing, newId) {
+  if (!editing) {
+    $.ajax({
+      type: "PUT",
+      url: `${baseUrl}/fnfprojects/${newId}`,
+      data: form,
+      contentType: "application/json",
+      crossDomain: true,
+      dataType: 'json',
+      headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Method": "POST",
         // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
         "Access-Control-Allow-Credentials": "true"
-    },
-    success: function (data, status, jqXHR) {
+      },
+      success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-        populateProjects(data)
-    },
-    error: function (jqXHR, status) {
+        getProjectList()
+      },
+      error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
-        console.log('get projects post failed' + jqXHR, status)
+        console.log(jqXHR, status)
         // alert('fail' + status.code)
-    }
- })
+      }
+    })
+  }
+  else {
+
+  }
 }
 
-function makeJson(formData) {
-  console.log(formData)
-  console.log(formData.length)
-  const form = {}
-  const contributors = []
-  const locations = []
-  const assocMedia = []
-  const idFields = [
-    'title', 
-    'description', 
-    'year', 'startDate', 
-    'endDate', 
-    'text',
-    'images'
-  ]
-  // online, onsite, online/onsite - .checked
-  // l-name l-url c-name c-role am-title am-url plus media select
-  for (let i = 0; i < formData.length; i++) {
-    console.log(formData[i].id)
-    for (let j = 0; j < idFields.length; j++) {
-    }
+function createGuid() {
+  var result, i, j
+  result = ''
+  for(j=0; j<32; j++) {
+    if( j == 8 || j == 12 || j == 16 || j == 20) 
+      result = result + '-';
+    i = Math.floor(Math.random()*16).toString(16).toUpperCase();
+    result = result + i
   }
+  return result
 }
 
 function readCookie(name) { // return fruity-cookie value
@@ -221,13 +478,15 @@ function getInfo() {
   // cookie ? 
   // getUser(cookie) : 
   // window.location = '/admin/login.html'
-  }
+  // FIRE GETUSER IF FALSE REDIRECT, IF TRUE VV
+  projectId = createGuid()
+  getProjectList()
+}
 
 function getUser(cookie) {
   console.log('nice one, now verify token -->' + cookie)
   // GET SESSION
   getProjectList()
-  const baseUrl = 'http://localhost:5984'
   $.ajax({
     type: "GET",
     url: `${baseUrl}/_session`,
@@ -258,12 +517,10 @@ function getUser(cookie) {
 function login(creds) {
   const name = document.getElementById('secret-usr').value
   const psw = document.getElementById('secret-psw').value
-  const baseUrl = 'http://localhost:5984'
     const loginReq = {
         name: name,
         password: psw
     }
-    // console.log(JSON.stringify(loginReq))
     let errDiv = document.getElementById('login-err')
     $.ajax({
         type: "POST",
@@ -281,10 +538,12 @@ function login(creds) {
         },
         success: function (data, status, jqXHR) {
             console.log('success', data, status, jqXHR)
+            errDiv.css('display', 'none')
   // set cookie!
         },
         error: function (jqXHR, status) {
             // console.log('error', jqXHR, status.code)
+            errDiv.css('display', 'flex')
             console.log(jqXHR, status)
             // alert('fail' + status.code)
         }
@@ -294,9 +553,6 @@ document.cookie = 'fruity-cookie=authgoeshere'
 }
 
 function logout() {
-  // window.localStorage.removeItem('fruity_token')
-  // window.location = 'http://localhost:3000/admin/login'
-  const baseUrl = 'http://localhost:5984'
   const cookie = readCookie('fruity-cookie')
   $.ajax({
     type: "DELETE",
@@ -378,10 +634,11 @@ function populateProjectList(projects) {
   ]
   let div = $(`#projects-list`)
   tempPro.forEach(project => {
+    // console.log(project)
     const d = document.createElement('div')
     d.className = `modal-title title-small`
     d.id = `${project._id}`
-    d.onclick = () => selectForm('edit', project._id, project.title)
+    d.onclick = () => selectForm('edit', project._id, project.title) // need rev?
     d.innerText = `${project.title}`
     div.append(d)
   })

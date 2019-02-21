@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <!-- <script src='./js/script.js'></script> -->
-    <!-- <script src="bundle.js"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -20,14 +17,12 @@
         crossorigin="anonymous">
     <link rel="stylesheet" type='text/css' href="style.css" />
 </head>
-
 <body>
     <div class="app">
         <div id='new-header' class="nav-title title-selected " onclick="selectForm('new')">New Project</div>
         <div id="modal-container" class="modal-false" style="display: flex; flex-direction: row;" onmouseleave="hideModal()">
             <div id='edit-header' class="nav-title modal-false" onclick="showModal()" onmouseover="showModal()">Edit
                 Project </div>
-            <!-- <img id='modal-icon' class="modal-true" src="/MENU.png" /> -->
             <div id='modal' class="project-modal">
                 <div id='modal-items' class='modal-items'>
                     <div id='projects-list' class='projects-list' style="flex-direction: column;">
@@ -42,7 +37,8 @@
         <div class="form-container">
             <div id='edit-title' class="editing-title"></div>
             <div id='form-title' class="form-title">New Project</div>
-            <form enctype="multipart/form-data" method="post" onsubmit="makeJson(this)">
+            <form id='admin-form' enctype="multipart/form-data" method="post" >
+                <!-- onsubmit="makeJson(this)" -->
                 <div class="form-group">
                     <label for="title">Project Title</label>
                     <input type="text" class="form-control" id="title" aria-describedby="" placeholder="Project Title">
@@ -81,13 +77,13 @@
                             <label for="c-name">Name</label>
                             <small id="role-help" class="text-hidden">e.g; facilitator, curator, artist. Default:
                                 artist</small>
-                            <input type="text" class="form-control form-control-sm" id="c-name" aria-describedby=""
+                            <input type="text" class="form-control form-control-sm c-name" id="c-name" aria-describedby=""
                                 placeholder="Name">
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="c-role ">Role</label>
                             <small id="role-help" class="text-muted">e.g; facilitator, curator, artist. Default: artist</small>
-                            <input type="text" class="form-control form-control-sm" id="c-role" aria-describedby=""
+                            <input type="text" class="form-control form-control-sm c-role" id="c-role" aria-describedby=""
                                 placeholder="Artist" value="Artist">
                         </div>
                         <!-- <button type="button" class="btn del-btn" onclick="delItem(this)">X</button> -->
@@ -133,7 +129,7 @@
                         <label class="form-check-label" for="onsite">Onsite</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="online/onsite" value="online/onsite">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="online-onsite" value="online/onsite">
                         <label class="form-check-label" for="online/onsite">Online and Onsite</label>
                     </div>
                 </div>
@@ -141,13 +137,13 @@
                     <div class="form-row loc-row" id='loc1'>
                         <div class="col-md-4 mb-3">
                             <label for="l-name">Site Name</label>
-                            <input type="text" class="form-control form-control-sm" id="l-name" aria-describedby=""
+                            <input type="text" class="form-control form-control-sm l-name" id="l-name" aria-describedby=""
                                 placeholder="E.g The Physics Room">
 
                         </div>
                         <div class="col-md-5 mb-3">
                             <label for="l-url">Project Url</label>
-                            <input type="text" class="form-control form-control-sm" id="l-url" aria-describedby=""
+                            <input type="text" class="form-control form-control-sm l-url" id="l-url" aria-describedby=""
                                 placeholder="Site specific project url">
                         </div>
                         <!-- <button type="button" class="btn del-btn" onclick="delItem(this)">X</button> -->
@@ -164,19 +160,19 @@
                 <div class="form-group med-container" id='med-container'>
                     <div class="form-row med-row" id='med1'>
                         <div class="col-md-4 mb-3">
-                            <label for="l-name">Title</label>
-                            <input type="text" class="form-control form-control-sm" id="am-title" aria-describedby=""
+                            <label for="am-title">Title</label>
+                            <input type="text" class="form-control form-control-sm am-title" id="am-title" aria-describedby=""
                                 placeholder="Title">
                         </div>
                         <div class="col-md-5 mb-3">
-                            <label for="l-url">Url</label>
-                            <input type="text" class="form-control form-control-sm" id="am-url" aria-describedby=""
+                            <label for="am-url">Url</label>
+                            <input type="text" class="form-control form-control-sm am-url" id="am-url" aria-describedby=""
                                 placeholder="Link to media">
                         </div>
                         <div class="dropdown">
-                            <div class="btn custom-dropdown small-btn-custom dropdown-toggle" id="medbtn1" data-toggle="dropdown">
+                            <button id="medbtn" class="medbtn btn custom-dropdown small-btn-custom dropdown-toggle "  data-toggle="dropdown">
                                 Media Type
-                            </div>
+                            </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" onclick="selectMedia(this)">None</a>
                                 <a class="dropdown-item" onclick="selectMedia(this)">Text Documemnt</a>
@@ -191,7 +187,7 @@
                 <div class="add-loc-container">
                     <button type="button" class="btn small-btn-custom loc-btn" onclick="addField('med')">Add Media</button>
                 </div>
-                <button type="submit" class="btn btn-primary" >Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         </form>
     </div>
