@@ -599,8 +599,8 @@ function getProjects(request) {
     crossDomain: true,
     dataType: 'json',
     headers: {
-      // "Access-Control-Request-Method": "OPTIONS",
-      // "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      "Access-Control-Request-Method": "OPTIONS",
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
       // "Content-Type": 'application/json'
     },
     success: function (data, status, jqXHR) {
