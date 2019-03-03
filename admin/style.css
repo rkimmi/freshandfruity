@@ -323,14 +323,14 @@ border-bottom-right-radius: 8px;
 }
 
 #login-err {
-    margin-left: auto;
-margin-right: auto;
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  background-color: #ff8cff99;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 12px;
 }
 
-#login-err-item {
-color: white;
-background-color: #ff8cff;
-padding: 5px;
-border-radius: 8px;
-}
 

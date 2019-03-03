@@ -82,7 +82,7 @@ const tempData = {
     "workshop / hui",
     ""
   ],
-  "locations": [ {
+  "locations": [{
     "name": "The Physics Room",
     "url": "url here"
   }
@@ -96,16 +96,16 @@ const tempData = {
 }
 
 const catAbr = [
-  {name: 'Text', id: 'cat-T'},
-  {name: 'Installation', id: 'cat-W'},
-  {name: 'Performance', id: 'cat-P'},
-  {name: 'Sculpture', id: 'cat-S'},
-  {name: 'Audio', id: 'cat-A'},
-  {name: 'Jewellery', id: 'cat-J'},
-  {name: 'Video', id: 'cat-V'},
-  {name: 'Fashion', id: 'cat-F'},
-  {name: 'Film Screening', id: 'cat-FS'},
-  {name: 'Workshop / Hui', id: 'cat-WH'},
+  { name: 'Text', id: 'cat-T' },
+  { name: 'Installation', id: 'cat-W' },
+  { name: 'Performance', id: 'cat-P' },
+  { name: 'Sculpture', id: 'cat-S' },
+  { name: 'Audio', id: 'cat-A' },
+  { name: 'Jewellery', id: 'cat-J' },
+  { name: 'Video', id: 'cat-V' },
+  { name: 'Fashion', id: 'cat-F' },
+  { name: 'Film Screening', id: 'cat-FS' },
+  { name: 'Workshop / Hui', id: 'cat-WH' },
 ]
 
 let state = {
@@ -171,18 +171,42 @@ const medDiv = `<div class="col-md-4 mb-3">
 // document.addEventListener('load', console.log('yea loaded'))
 
 $(document).ready(() => {
-  getInfo()
+  console.log('mounted')
+  window.location === 'Users/kimmi/Documents/Workspace/freshandfruity/admin/admin.html' ?
+  window.location = 'Users/kimmi/Documents/Workspace/freshandfruity/admin/login.html' :
+  // change / admin then /login
+  loginPublic()
 })
+
+function loginPublic() {
+  const publicUser =
+  {
+    username: 'publicUser',
+    password: 'iampublic'
+  }
+  login(publicUser)
+}
+
+function getNavInfo() {
+  // projectId = createGuid()
+  const req = {
+    selector: {
+      year: { $gt: 2010 }
+    },
+    fields: ["_id", "_rev", "year", "title"]
+  }
+  getProjects(req)
+}
 
 function addField(name) {
   let toAppend
   name === 'loc'
     ? (toAppend = locDiv)
     : name === 'cont'
-    ? (toAppend = contDiv)
-    : name === 'med'
-    ? (toAppend = medDiv)
-    : false
+      ? (toAppend = contDiv)
+      : name === 'med'
+        ? (toAppend = medDiv)
+        : false
   state[`${name}Count`]++
   const field = $(`#${name}-container`)
   const d = document.createElement('div')
@@ -250,12 +274,16 @@ function selectForm(type, id, title) {
       $(`#edit-title`)[0].innerText = '',
       $(`#edit-header`).removeClass('title-selected'),
       editing = false,
-      projectId = createGuid()
-      (formTitle[0].innerText = 'New Project'))
+      // projectId = createGuid()
+        (formTitle[0].innerText = 'New Project'))
+  clearFormFields()
+}
+
+function clearFormFields() {
+
 }
 
 function getProjectInfo(id) {
-  console.log('hello')
   // combine all /_find queries, send req, and callback
   populateEdit()
   const req = {
@@ -273,11 +301,8 @@ function getProjectInfo(id) {
     crossDomain: true,
     dataType: 'json',
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Method": "POST",
-      // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "Authorization",
-      "Access-Control-Allow-Credentials": "true"
+      "Access-Control-Request-Method": "OPTIONS",
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
     },
     success: function (data, status, jqXHR) {
       console.log('success', data, status, jqXHR)
@@ -288,7 +313,6 @@ function getProjectInfo(id) {
       console.log('get projects post failed' + jqXHR, status)
       // alert('fail' + status.code)
     }
-    
   })
 }
 
@@ -319,9 +343,9 @@ function populateEdit(project) {
   $(`#images`)[0].value = tempData.images.toString()
   for (let i = 0; i < catAbr.length; i++) {
     for (let j = 0; j < tempData.categories.length; j++) {
-      let category = tempData.categories[j] 
+      let category = tempData.categories[j]
       if (category === catAbr[i].name.toLowerCase()) {
-        $(`#${catAbr[i].id}`).addClass('cat-selected') 
+        $(`#${catAbr[i].id}`).addClass('cat-selected')
       }
     }
   }
@@ -344,7 +368,7 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
 }
 
 // function makeJson(formData) {
-  $('#admin-form').on('submit', function(e) {
+$('#admin-form').on('submit', function (e) {
   const form = {
     contributors: [],
     locations: [],
@@ -367,7 +391,7 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
     const input = formData[i]
     switch (input.id) {
       case 'images':
-        form.images = (input.value.split(', ') || input.value.split(',') )
+        form.images = (input.value.split(', ') || input.value.split(','))
         break;
       case 'c-name':
         contributor.name = input.value
@@ -405,19 +429,19 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
     else if (input.className.includes('form-check-input') && input.checked) {
       form.scope = input.id
     }
-      for (let j = 0; j < idFields.length; j++) {
-        if (formData[i].id === idFields[i]) {
-          form[input.id] = input.value
-        }
+    for (let j = 0; j < idFields.length; j++) {
+      if (formData[i].id === idFields[i]) {
+        form[input.id] = input.value
       }
     }
-   const formatted = JSON.stringify(form)
-   sendProject(formatted, editing, projectId)
-  })
+  }
+  const formatted = JSON.stringify(form)
+  sendProject(formatted, editing)
+})
 
 
 function sendProject(form, editing, newId) {
-  if (!editing) {
+  if (!editing && newId) {
     $.ajax({
       type: "PUT",
       url: `${baseUrl}/fnfprojects/${newId}`,
@@ -426,11 +450,8 @@ function sendProject(form, editing, newId) {
       crossDomain: true,
       dataType: 'json',
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Method": "POST",
-        // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Authorization",
-        "Access-Control-Allow-Credentials": "true"
+        "Access-Control-Request-Method": "OPTIONS",
+        "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
@@ -444,196 +465,174 @@ function sendProject(form, editing, newId) {
     })
   }
   else {
-
+    $.ajax({
+      type: "POST",
+      url: `${baseUrl}/fnfprojects`,
+      data: form,
+      contentType: "application/json",
+      crossDomain: true,
+      dataType: 'json',
+      headers: {
+        "Access-Control-Request-Method": "OPTIONS",
+        "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      },
+      success: function (data, status, jqXHR) {
+        // console.log('success', data, status, jqXHR)
+        getProjectList()
+      },
+      error: function (jqXHR, status) {
+        // console.log('error', jqXHR, status.code)
+        console.log(jqXHR, status)
+        // alert('fail' + status.code)
+      }
+    })
   }
 }
 
-function createGuid() {
-  var result, i, j
-  result = ''
-  for(j=0; j<32; j++) {
-    if( j == 8 || j == 12 || j == 16 || j == 20) 
-      result = result + '-';
-    i = Math.floor(Math.random()*16).toString(16).toUpperCase();
-    result = result + i
+
+// function createGuid() {
+//   var result, i, j
+//   result = ''
+//   for (j = 0; j < 32; j++) {
+//     if (j == 8 || j == 12 || j == 16 || j == 20)
+//       result = result + '-';
+//     i = Math.floor(Math.random() * 16).toString(16).toUpperCase();
+//     result = result + i
+//   }
+//   return result
+// }
+
+// function readCookie(name) { // return fruity-cookie value
+//   var nameEQ = name + "=";
+//   var ca = document.cookie.split(';');
+//   for (var i = 0; i < ca.length; i++) {
+//     var c = ca[i]
+//     while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+//     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+//   }
+//   return null
+// }
+
+function login(loginReq) {
+  // const name = document.getElementById('secret-usr').value
+  // const psw = document.getElementById('secret-psw').value
+  // const loginReq = {
+  //   name: name,
+  //   password: psw
+  // }
+  //  if not public user, then on /admin
+  if (!loginReq && window.location === '/admin/login') {
+    console.log('heya')
+    const name = document.getElementById('secret-usr').value
+    const psw = document.getElementById('secret-psw').value
+    const admin = {
+      name: name,
+      password: psw
+    } // if not public user, then on /admin
+    loginReq = admin
   }
-  return result
-}
-
-function readCookie(name) { // return fruity-cookie value
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
-      var c = ca[i]
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-  }
-  return null
-}
-
-function getInfo() {
-  // combine login, logout && getuser -> send params eg method
-  // _session feed
-  // const cookie = readCookie('fruity-cookie')
-  // cookie ? 
-  // getUser(cookie) : 
-  // window.location = '/admin/login.html'
-  // FIRE GETUSER IF FALSE REDIRECT, IF TRUE VV
-  projectId = createGuid()
-  getProjectList()
-}
-
-function getUser(cookie) {
-  console.log('nice one, now verify token -->' + cookie)
-  // GET SESSION
-  getProjectList()
   $.ajax({
-    type: "GET",
+    type: "POST",
     url: `${baseUrl}/_session`,
     data: JSON.stringify(loginReq),
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
     headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Method": "POST",
-        // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Authorization",
-        "Access-Control-Allow-Credentials": "true",
-        "Cookie": `fruity-cookie=${cookie}`
+      "Access-Control-Request-Method": "OPTIONS",
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
     },
     success: function (data, status, jqXHR) {
-        console.log('success', data, status, jqXHR)
-      //  getProjectList()
+      // console.log('success', data, status, jqXHR)
+      console.log(jqXHR)
+      $(`#login-err`).css('display', 'none')
+      console.log(jqXHR.getResponseHeader('Set-Cookie'));
+      getNavInfo()
+      // window.location = '/admin'
     },
     error: function (jqXHR, status) {
-        // console.log('error', jqXHR, status.code)
-        console.log(jqXHR, status)
-        // alert('fail' + status.code)
+      // console.log('error', jqXHR, status.code)
+      $(`#login-err`).css('display', 'flex')
+      $(`#login-err`)[0].innerHTML = jqXHR.responseJSON.reason
+      console.log(jqXHR)
+      console.log($(`#login-err`))
+      // alert('fail' + status.code)
     }
- })
-}
-
-function login(creds) {
-  const name = document.getElementById('secret-usr').value
-  const psw = document.getElementById('secret-psw').value
-    const loginReq = {
-        name: name,
-        password: psw
-    }
-    let errDiv = document.getElementById('login-err')
-    $.ajax({
-        type: "POST",
-        url: `${baseUrl}/_session?next=/admin`,
-        data: JSON.stringify(loginReq),
-        contentType: "application/json",
-        crossDomain: true,
-        dataType: 'json',
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            //"Access-Control-Allow-Method": "POST",
-            "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
-            "Access-Control-Allow-Credentials": "true"
-        },
-        success: function (data, status, jqXHR) {
-            console.log('success', data, status, jqXHR)
-            errDiv.css('display', 'none')
-  // set cookie!
-        },
-        error: function (jqXHR, status) {
-            // console.log('error', jqXHR, status.code)
-            errDiv.css('display', 'flex')
-            console.log(jqXHR, status)
-            // alert('fail' + status.code)
-        }
-     })
-document.cookie = 'fruity-cookie=authgoeshere'
-// window.location = '/admin'
+  })
+  // document.cookie = 'fruity-cookie=authgoeshere'
+  // window.location = '/admin'
 }
 
 function logout() {
-  const cookie = readCookie('fruity-cookie')
+  // const cookie = readCookie('fruity-cookie')
   $.ajax({
     type: "DELETE",
     // Accept: 'application/json',
     url: `${baseUrl}/_session?next=/admin/login`,
     contentType: "application/json",
-    // Cookie: '',
     crossDomain: true,
     dataType: 'json',
     headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Method": "POST",
-        // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Authorization",
-        "Access-Control-Allow-Credentials": "true",
-        "Cookie": cookie
+      "Access-Control-Request-Method": "OPTIONS",
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
     },
     success: function (data, status, jqXHR) {
-        console.log('success', data, status, jqXHR)
+      console.log('success', data, status, jqXHR)
+      // redirect
     },
     error: function (jqXHR, status) {
-        // console.log('error', jqXHR, status.code)
-        console.log(jqXHR, status)
-        // alert('fail' + status.code)
+      console.log(jqXHR, status)
+      // log error
+      // redirect
     }
- })
- window.location = 'http://localhost:3000/admin/login'
+  })
+  // window.location = 'http://localhost:3000/admin/login'
 }
 
-function getProjectList() {
-  console.log('getProjectList called')
-  populateProjectList()
-//   const baseUrl = 'http://localhost:5984'
-//   const req = {
-//       selector: {
-//           year: {$gt: 2010}
-//       },
-//       fields: ["_id", "_rev", "year", "title"]
-// }
-//   $.ajax({
-//     type: "POST",
-//     url: `${baseUrl}/_find`,
-//     data: JSON.stringify(req),
-//     contentType: "application/json",
-//     crossDomain: true,
-//     dataType: 'json',
-//     headers: {
-//         "Access-Control-Allow-Origin": "*",
-//         "Access-Control-Allow-Method": "POST",
-//         // "Access-Control-Allow-Methods": "POST, GET, PUT, UPDATE, DELETE, OPTIONS",
-//         "Access-Control-Allow-Headers": "Authorization",
-//         "Access-Control-Allow-Credentials": "true"
-//     },
-//     success: function (data, status, jqXHR) {
-//         console.log('success', data, status, jqXHR)
-//         populateProjects(data)
-//     },
-//     error: function (jqXHR, status) {
-//         // console.log('error', jqXHR, status.code)
-//         console.log('get projects post failed' + jqXHR, status)
-//         // alert('fail' + status.code)
-//     }
-//  })
+function getProjects(request) {
+  console.log(request)
+  $.ajax({
+    type: "POST",
+    url: `${baseUrl}/_find`,
+    data: JSON.stringify(request),
+    contentType: "application/json",
+    crossDomain: true,
+    dataType: 'json',
+    headers: {
+      // "Access-Control-Request-Method": "OPTIONS",
+      // "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      // "Content-Type": 'application/json'
+    },
+    success: function (data, status, jqXHR) {
+      console.log('success', data, status, jqXHR)
+      populateProjectList(data)
+    },
+    error: function (jqXHR, status) {
+      // console.log('error', jqXHR, status.code)
+      console.log('get projects post failed' + jqXHR, status)
+      // alert('fail' + status.code)
+      // handle error
+      // logout()
+    }
+  })
 }
 
 function populateProjectList(projects) {
   const tempPro = [{
-      _id: "d2191621ffb360a211d836dc4c011b6d",
-      _rev: "6-c59e7122bcdf1b2c7480f55524576233",
-      year: "2017",
-      title: "Blame it on the rain: a one night only film screening"
-    },
-    {
-      _id: "d21hdjkhuidjh91621ffb360a211d836dc4c00454b",
-      _rev: "9-0e59c6f091bf2b223682dd8176330eff",
-      year: "2017",
-      title: "Blame It on the Rain Volume ii"
-    }
+    _id: "d2191621ffb360a211d836dc4c011b6d",
+    _rev: "6-c59e7122bcdf1b2c7480f55524576233",
+    year: "2017",
+    title: "Blame it on the rain: a one night only film screening"
+  },
+  {
+    _id: "d21hdjkhuidjh91621ffb360a211d836dc4c00454b",
+    _rev: "9-0e59c6f091bf2b223682dd8176330eff",
+    year: "2017",
+    title: "Blame It on the Rain Volume ii"
+  }
   ]
   let div = $(`#projects-list`)
-  tempPro.forEach(project => {
+  projects.forEach(project => {
     // console.log(project)
     const d = document.createElement('div')
     d.className = `modal-title title-small`
