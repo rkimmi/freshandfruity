@@ -167,22 +167,19 @@ const medDiv = `<div class="col-md-4 mb-3">
 <button type="button" class="btn del-btn del-btn dd-margin" onclick="delItem(this)">X</button>
 </div>`
 
-// document.addEventListener('', getInfo())
-// document.addEventListener('load', console.log('yea loaded'))
-
 $(document).ready(() => {
   console.log('mounted')
   window.location === 'Users/kimmi/Documents/Workspace/freshandfruity/admin/admin.html' ?
   window.location = 'Users/kimmi/Documents/Workspace/freshandfruity/admin/login.html' :
-  // change / admin then /login
+  // change once htaccess working 
   loginPublic()
 })
 
 function loginPublic() {
   const publicUser =
   {
-    username: 'publicUser',
-    password: 'iampublic'
+    username: 'freshnfruitygallery@gmail.com',
+    password: 'FRUITYADMIN'
   }
   login(publicUser)
 }
@@ -455,7 +452,7 @@ function sendProject(form, editing, newId) {
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-        getProjectList()
+        getProjects()
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
@@ -478,7 +475,7 @@ function sendProject(form, editing, newId) {
       },
       success: function (data, status, jqXHR) {
         // console.log('success', data, status, jqXHR)
-        getProjectList()
+        getProjects()
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
@@ -514,22 +511,18 @@ function sendProject(form, editing, newId) {
 // }
 
 function login(loginReq) {
-  // const name = document.getElementById('secret-usr').value
-  // const psw = document.getElementById('secret-psw').value
-  // const loginReq = {
-  //   name: name,
-  //   password: psw
-  // }
-  //  if not public user, then on /admin
+  let user = loginReq.username
   if (!loginReq && window.location === '/admin/login') {
-    console.log('heya')
     const name = document.getElementById('secret-usr').value
     const psw = document.getElementById('secret-psw').value
     const admin = {
-      name: name,
+      username: name,
       password: psw
     } // if not public user, then on /admin
     loginReq = admin
+    user = admin.name
+  } else if (window.location === '/admin') {
+    window.redirect('/admin/login')
   }
   $.ajax({
     type: "POST",
@@ -540,14 +533,14 @@ function login(loginReq) {
     dataType: 'json',
     headers: {
       "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
     },
     success: function (data, status, jqXHR) {
-      // console.log('success', data, status, jqXHR)
-      console.log(jqXHR)
+      console.log(jqXHR.responseJSON)
       $(`#login-err`).css('display', 'none')
-      console.log(jqXHR.getResponseHeader('Set-Cookie'));
+      // console.log(jqXHR.getResponseHeader('Set-Cookie'));
       getNavInfo()
+      user === 'publicUser' && localStorage.setItem(user)
       // window.location = '/admin'
     },
     error: function (jqXHR, status) {
@@ -556,11 +549,8 @@ function login(loginReq) {
       $(`#login-err`)[0].innerHTML = jqXHR.responseJSON.reason
       console.log(jqXHR)
       console.log($(`#login-err`))
-      // alert('fail' + status.code)
     }
   })
-  // document.cookie = 'fruity-cookie=authgoeshere'
-  // window.location = '/admin'
 }
 
 function logout() {
@@ -608,11 +598,8 @@ function getProjects(request) {
       populateProjectList(data)
     },
     error: function (jqXHR, status) {
-      // console.log('error', jqXHR, status.code)
       console.log('get projects post failed' + jqXHR, status)
-      // alert('fail' + status.code)
-      // handle error
-      // logout()
+      // loginPublic()
     }
   })
 }
