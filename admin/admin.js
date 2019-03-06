@@ -115,7 +115,7 @@ let state = {
 }
 
 let modalShowing = true
-const baseUrl = 'http://localhost:5984'
+const baseUrl = 'http://localhost:5984/'
 
 let editing = false
 let projectId = null
@@ -168,9 +168,10 @@ const medDiv = `<div class="col-md-4 mb-3">
 </div>`
 
 $(document).ready(() => {
-  console.log('mounted')
   window.location === 'Users/kimmi/Documents/Workspace/freshandfruity/admin/admin.html' ?
   window.location = 'Users/kimmi/Documents/Workspace/freshandfruity/admin/login.html' :
+  // else if /login, do nothing
+  // make token ? if token, don't submit login
   // change once htaccess working 
   loginPublic()
 })
@@ -181,6 +182,7 @@ function loginPublic() {
     username: 'freshnfruitygallery@gmail.com',
     password: 'FRUITYADMIN'
   }
+  // publicUser iampublic
   login(publicUser)
 }
 
@@ -438,6 +440,12 @@ $('#admin-form').on('submit', function (e) {
 
 
 function sendProject(form, editing, newId) {
+  // const req = {
+  //   selector: {
+  //     year: { $gt: 2010 }
+  //   },
+  //   fields: ["_id", "_rev", "year", "title"]
+  // }
   if (!editing && newId) {
     $.ajax({
       type: "PUT",
@@ -452,7 +460,7 @@ function sendProject(form, editing, newId) {
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-        getProjects()
+        // getProjects(req)
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
@@ -538,26 +546,19 @@ function login(loginReq) {
     success: function (data, status, jqXHR) {
       console.log(jqXHR.responseJSON)
       $(`#login-err`).css('display', 'none')
-      // console.log(jqXHR.getResponseHeader('Set-Cookie'));
       getNavInfo()
       user === 'publicUser' && localStorage.setItem(user)
-      // window.location = '/admin'
     },
     error: function (jqXHR, status) {
-      // console.log('error', jqXHR, status.code)
       $(`#login-err`).css('display', 'flex')
       $(`#login-err`)[0].innerHTML = jqXHR.responseJSON.reason
-      console.log(jqXHR)
-      console.log($(`#login-err`))
     }
   })
 }
 
 function logout() {
-  // const cookie = readCookie('fruity-cookie')
   $.ajax({
     type: "DELETE",
-    // Accept: 'application/json',
     url: `${baseUrl}/_session?next=/admin/login`,
     contentType: "application/json",
     crossDomain: true,
@@ -568,33 +569,27 @@ function logout() {
     },
     success: function (data, status, jqXHR) {
       console.log('success', data, status, jqXHR)
-      // redirect
     },
     error: function (jqXHR, status) {
       console.log(jqXHR, status)
-      // log error
-      // redirect
     }
   })
   // window.location = 'http://localhost:3000/admin/login'
 }
 
 function getProjects(request) {
-  console.log(request)
   $.ajax({
     type: "POST",
-    url: `${baseUrl}/_find`,
+    url: `${baseUrl}/fnfprojects/_find`,
     data: JSON.stringify(request),
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
     headers: {
       "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
-      // "Content-Type": 'application/json'
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
     },
     success: function (data, status, jqXHR) {
-      console.log('success', data, status, jqXHR)
       populateProjectList(data)
     },
     error: function (jqXHR, status) {
