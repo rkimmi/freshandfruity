@@ -73,7 +73,7 @@ const medDiv = `<div class="col-md-4 mb-3">
 
 $(document).ready(() => {
 	console.log(window.location)
-  window.location.toString().includes('/freshandfruity/admin') ?
+  window.location.toString().includes('/freshandfruity/fnfadmin') ?
   window.location = '/freshandfruity/login' :
   // else if /login, do nothing
   // make token ? if token, don't submit login
@@ -440,7 +440,7 @@ function login(loginReq, callback) {
     loginAdmin = admin
     user = admin.name
     callback = redirectAdmin
-  } else if (window.location === '/freshandfruity/admin') {
+  } else if (window.location === '/freshandfruity/fnfadmin') {
 	// CHANGE LOCATION FOR DEPLOY
     window.redirect('/freshandfruity/login')
   }
@@ -471,7 +471,7 @@ function login(loginReq, callback) {
 function logout() {
   $.ajax({
     type: "DELETE",
-    url: `${baseUrl}/_session?next=/admin/login`,
+    url: `${baseUrl}/_session?next=/login`,
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
@@ -484,9 +484,9 @@ function logout() {
     },
     error: function (jqXHR, status) {
       console.log(jqXHR, status)
+	    window.location === '/freshandfruity/login'
     }
   })
-  // window.location = 'http://localhost:3000/admin/login'
 }
 
 function getProjects(request) {

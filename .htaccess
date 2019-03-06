@@ -1,5 +1,4 @@
 RewriteEngine on
+
+RewriteRule ^fnfadmin$ admin/admin.html
 RewriteRule ^login$ admin/login.html
-
-
-RewriteRule ^admin$ admin/admin.html
