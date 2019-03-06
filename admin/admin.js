@@ -72,13 +72,10 @@ const medDiv = `<div class="col-md-4 mb-3">
 </div>`
 
 $(document).ready(() => {
-	console.log(window.location)
-  window.location.toString().includes('/freshandfruity/fnfadmin') ?
-  window.location = '/freshandfruity/login' :
-  // else if /login, do nothing
-  // make token ? if token, don't submit login
-  // change once htaccess working 
-  loginPublic()
+  window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
+  window.location = '/freshandfruity/login' : 
+  !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
+  loginPublic() : console.log('nothing happening here')
 })
 
 function loginPublic() {
@@ -88,6 +85,7 @@ function loginPublic() {
     password: 'iampublic'
   }
   // publicUser iampublic
+// send first api call as second parameter
   login(publicUser, false)
 }
 
@@ -424,30 +422,37 @@ function sendProject(form, editing, newId) {
 // }
 
 function redirectAdmin() {
-  window.location === '/freshandfruity/login'
+	console.log('redirect called via callback')
+  window.location = '/freshandfruity/fnfadmin'
+	getNavInfo()
 }
 
-function login(loginReq, callback) {
-  let user = loginReq.username
-  if (!loginReq && window.location === '/freshandfruity/login') {
+function login(loginReq, cb) {
+ // let user = loginReq.username
+  let user;
+  let specialCb;
+    if (!loginReq && window.location.toString().includes('/login')) {
 	// To do: CHANGE LOCATION FOR DEPLOY
     const name = document.getElementById('secret-usr').value
     const psw = document.getElementById('secret-psw').value
-    const admin = {
+    user = {
       username: name,
       password: psw
     }
-    loginAdmin = admin
-    user = admin.name
-    callback = redirectAdmin
-  } else if (window.location === '/freshandfruity/fnfadmin') {
+    // const name = admin.name
+    specialCb  = redirectAdmin
+  } else if (window.location.toString().includes('/fnfadmin')) {
 	// CHANGE LOCATION FOR DEPLOY
-    window.redirect('/freshandfruity/login')
+    window.location = '/freshandfruity/login'
   }
-  $.ajax({
+	let request;
+	!loginReq ? request = user : request = loginReq
+	let callback;
+	!cb ? callback = specialCb : callback = cb
+	$.ajax({
     type: "POST",
     url: `${baseUrl}/_session`,
-    data: JSON.stringify(loginReq ? loginReq : loginAdmin),
+    data: JSON.stringify(request),
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
@@ -458,8 +463,9 @@ function login(loginReq, callback) {
     success: function (data, status, jqXHR) {
       console.log(jqXHR.responseJSON)
       $(`#login-err`).css('display', 'none')
+      localStorage.setItem(data.name, 'assumedLogin=true')
+      data.name === 'freshnfruitygallery@gmail.com' ? localStorage.removeItem('publicUser') : localStorage.removeItem('freshnfruitygallery@gmail.com')
       callback()
-      user === 'publicUser' && localStorage.setItem(user)
     },
     error: function (jqXHR, status) {
       $(`#login-err`).css('display', 'flex')
@@ -481,10 +487,13 @@ function logout() {
     },
     success: function (data, status, jqXHR) {
       console.log('success', data, status, jqXHR)
+	window.location = '/freshandfruity/login'
+	localStorage.removeItem('freshnfruitygallery@gmail.com')
     },
-    error: function (jqXHR, status) {
+    error: function (jqXHR, status) 
       console.log(jqXHR, status)
-	    window.location === '/freshandfruity/login'
+      window.location = '/freshandfruity/login'
+	localStorage.removeItem('freshnfruitygallery@gmail.com')
     }
   })
 }
@@ -512,19 +521,6 @@ function getProjects(request) {
 }
 
 function populateProjectList(projects) {
-  const tempPro = [{
-    _id: "d2191621ffb360a211d836dc4c011b6d",
-    _rev: "6-c59e7122bcdf1b2c7480f55524576233",
-    year: "2017",
-    title: "Blame it on the rain: a one night only film screening"
-  },
-  {
-    _id: "d21hdjkhuidjh91621ffb360a211d836dc4c00454b",
-    _rev: "9-0e59c6f091bf2b223682dd8176330eff",
-    year: "2017",
-    title: "Blame It on the Rain Volume ii"
-  }
-  ]
   let div = $(`#projects-list`)
   projects.forEach(project => {
     // console.log(project)
