@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^login$ admin/login.html
+
+
+RewriteRule ^admin$ admin/admin.html

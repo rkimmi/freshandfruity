@@ -1,99 +1,3 @@
-const tempData = {
-  "_id": "d2191621ffb360a211d836dc4c011b6d",
-  "_rev": "10-a8148dc554ced985a8fc919a4a084ecf",
-  "title": "Blame it on the rain: a one night only film screening",
-  "description": "Blame it on the rain. A one night only film screening presented by Fresh and Fruity and JPEG2000 as part of Till the World Ends",
-  "year": "2017",
-  "text": "Plants in water asymmetrically climbing and twisting towards the light. Break. Broken. Fall. Smash. Shatter. Spill the tea. Know yourself & love urself. My heart is so broken. I need to 3D print a new one. What purpose does art have? Blame it on the rain. Performing self management rituals. ASMR videos of baby animals interacting. Having empathy. The water became too warm the algae vomited itself out of the coral. Helplessness. Brains spill out like spaghetti. Mom’s spaghetti. Spaghetti on top. Spaghetti on pizza. Kill the poor SPAGHETT. Aliens emerging from Papatuanuku’s womb coming to save us. Performing or serving?",
-  "assocMedia": [
-    {
-      "title": "Media",
-      "url": "Media url",
-      "type": "Text Document"
-    }
-  ],
-  "startDate": "10/10/2017",
-  "endDate": "20/12/2017",
-  "contributors": [
-    {
-      "name": "Orr Amran",
-      "role": "artist"
-    },
-    {
-      "name": "Sophie Cassar",
-      "role": "artist"
-    },
-    {
-      "name": "Christian Noelle Charles",
-      "role": "artist"
-    },
-    {
-      "name": "Hannah Hallam-Eames",
-      "role": "artist"
-    },
-    {
-      "name": "Claire Estermann",
-      "role": "artist"
-    },
-    {
-      "name": "Ana Iti",
-      "role": "artist"
-    },
-    {
-      "name": "Nunzio",
-      "role": "artist"
-    },
-    {
-      "name": "Maddy Plimmer",
-      "role": "artist"
-    },
-    {
-      "name": "Autumn Royal",
-      "role": "artist"
-    },
-    {
-      "name": "Talia Smith",
-      "role": "artist"
-    },
-    {
-      "name": "Kalinda Vary",
-      "role": "artist"
-    },
-    {
-      "name": "Layne Waerea",
-      "role": "artist"
-    },
-    {
-      "name": "Nicole Webber",
-      "role": "artist"
-    },
-    {
-      "name": "JPEG2000",
-      "role": "facilitator"
-    },
-    {
-      "name": "Fresh and Fruity",
-      "role": "facilitator"
-    }
-  ],
-  "categories": [
-    "film screening",
-    "text",
-    "workshop / hui",
-    ""
-  ],
-  "locations": [{
-    "name": "The Physics Room",
-    "url": "url here"
-  }
-  ],
-  "images": [
-    "link1",
-    "link2",
-    "link3"
-  ],
-  "scope": "online-onsite"
-}
 
 const catAbr = [
   { name: 'Text', id: 'cat-T' },
@@ -168,8 +72,9 @@ const medDiv = `<div class="col-md-4 mb-3">
 </div>`
 
 $(document).ready(() => {
-  window.location === 'Users/kimmi/Documents/Workspace/freshandfruity/admin/admin.html' ?
-  window.location = 'Users/kimmi/Documents/Workspace/freshandfruity/admin/login.html' :
+	console.log(window.location)
+  window.location.toString().includes('/freshandfruity/admin') ?
+  window.location = '/freshandfruity/login' :
   // else if /login, do nothing
   // make token ? if token, don't submit login
   // change once htaccess working 
@@ -179,11 +84,11 @@ $(document).ready(() => {
 function loginPublic() {
   const publicUser =
   {
-    username: 'freshnfruitygallery@gmail.com',
-    password: 'FRUITYADMIN'
+    username: 'publicUser',
+    password: 'iampublic'
   }
   // publicUser iampublic
-  login(publicUser)
+  login(publicUser, false)
 }
 
 function getNavInfo() {
@@ -440,12 +345,12 @@ $('#admin-form').on('submit', function (e) {
 
 
 function sendProject(form, editing, newId) {
-  // const req = {
-  //   selector: {
-  //     year: { $gt: 2010 }
-  //   },
-  //   fields: ["_id", "_rev", "year", "title"]
-  // }
+     const req = {
+     selector: {
+       year: { $gt: 2010 }
+     },
+     fields: ["_id", "_rev", "year", "title"]
+   }
   if (!editing && newId) {
     $.ajax({
       type: "PUT",
@@ -460,12 +365,12 @@ function sendProject(form, editing, newId) {
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-        // getProjects(req)
+         getProjects(req)
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
         console.log(jqXHR, status)
-        // alert('fail' + status.code)
+        alert('fail' + status.code)
       }
     })
   }
@@ -483,12 +388,12 @@ function sendProject(form, editing, newId) {
       },
       success: function (data, status, jqXHR) {
         // console.log('success', data, status, jqXHR)
-        getProjects()
+        getProjects(req)
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
         console.log(jqXHR, status)
-        // alert('fail' + status.code)
+        alert('fail' + status.code)
       }
     })
   }
@@ -518,24 +423,31 @@ function sendProject(form, editing, newId) {
 //   return null
 // }
 
-function login(loginReq) {
+function redirectAdmin() {
+  window.location === '/freshandfruity/login'
+}
+
+function login(loginReq, callback) {
   let user = loginReq.username
-  if (!loginReq && window.location === '/admin/login') {
+  if (!loginReq && window.location === '/freshandfruity/login') {
+	// To do: CHANGE LOCATION FOR DEPLOY
     const name = document.getElementById('secret-usr').value
     const psw = document.getElementById('secret-psw').value
     const admin = {
       username: name,
       password: psw
-    } // if not public user, then on /admin
-    loginReq = admin
+    }
+    loginAdmin = admin
     user = admin.name
-  } else if (window.location === '/admin') {
-    window.redirect('/admin/login')
+    callback = redirectAdmin
+  } else if (window.location === '/freshandfruity/admin') {
+	// CHANGE LOCATION FOR DEPLOY
+    window.redirect('/freshandfruity/login')
   }
   $.ajax({
     type: "POST",
     url: `${baseUrl}/_session`,
-    data: JSON.stringify(loginReq),
+    data: JSON.stringify(loginReq ? loginReq : loginAdmin),
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
@@ -546,7 +458,7 @@ function login(loginReq) {
     success: function (data, status, jqXHR) {
       console.log(jqXHR.responseJSON)
       $(`#login-err`).css('display', 'none')
-      getNavInfo()
+      callback()
       user === 'publicUser' && localStorage.setItem(user)
     },
     error: function (jqXHR, status) {
