@@ -75,7 +75,8 @@ $(document).ready(() => {
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
     window.location = '/freshandfruity/login' :
     !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
-      loginPublic() : console.log('nothing happening here')
+      loginPublic() : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
+	getNavInfo() : console.log('nothing happening here')
 })
 
 function loginPublic() {
@@ -91,7 +92,8 @@ function loginPublic() {
 
 function getNavInfo() {
   // projectId = createGuid()
-  const req = {
+  console.log('getNavInfo called')
+   const req = {
     selector: {
       year: { $gt: 2010 }
     },
@@ -187,7 +189,6 @@ function clearFormFields() {
 
 function getProjectInfo(id) {
   // combine all /_find queries, send req, and callback
-  populateEdit()
   const req = {
     selector: {
       _id: {
@@ -197,7 +198,7 @@ function getProjectInfo(id) {
   }
   $.ajax({
     type: "POST",
-    url: `${baseUrl}/_find`,
+    url: `${baseUrl}/fnfprojects/_find`,
     data: JSON.stringify(req),
     contentType: "application/json",
     crossDomain: true,
@@ -208,7 +209,7 @@ function getProjectInfo(id) {
     },
     success: function (data, status, jqXHR) {
       console.log('success', data, status, jqXHR)
-      // populateEdit(data)
+      populateEdit(data.docs[0])
     },
     error: function (jqXHR, status) {
       // console.log('error', jqXHR, status.code)
@@ -219,7 +220,6 @@ function getProjectInfo(id) {
 }
 
 function populateEdit(project) {
-  // using tempData until project complete
   const idFields = [
     'title',
     'description',
@@ -230,22 +230,22 @@ function populateEdit(project) {
   for (let i = 0; i < idFields.length; i++) {
     const inputName = idFields[i]
     const input = document.getElementById(idFields[i])
-    input.value = tempData[inputName]
+    input.value = project[inputName]
   }
-  $(`#${tempData.scope}`)[0].checked = true
-  tempData.contributors.forEach((contributor, idx) => {
+  $(`#${project.scope}`)[0].checked = true
+  project.contributors.forEach((contributor, idx) => {
     populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
   })
-  tempData.locations.forEach((location, idx) => {
+  project.locations.forEach((location, idx) => {
     populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
   })
-  tempData.assocMedia.forEach((media, idx) => {
+  project.assocMedia.forEach((media, idx) => {
     populateMultiple(media, 'med', idx, 'am-title', 'am-url', 'medbtn')
   })
-  $(`#images`)[0].value = tempData.images.toString()
+  $(`#images`)[0].value = project.images.toString()
   for (let i = 0; i < catAbr.length; i++) {
-    for (let j = 0; j < tempData.categories.length; j++) {
-      let category = tempData.categories[j]
+    for (let j = 0; j < project.categories.length; j++) {
+      let category = project.categories[j]
       if (category === catAbr[i].name.toLowerCase()) {
         $(`#${catAbr[i].id}`).addClass('cat-selected')
       }
@@ -423,7 +423,7 @@ function sendProject(form, editing, newId) {
 
 function redirectAdmin() {
   window.location = '/freshandfruity/fnfadmin'
-  getNavInfo()
+  // getNavInfo()
 }
 
 function loginAdmin() {
@@ -486,6 +486,7 @@ function logout() {
 }
 
 function getProjects(request) {
+	console.log('getProjects called')
   $.ajax({
     type: "POST",
     url: `${baseUrl}/fnfprojects/_find`,
@@ -498,7 +499,8 @@ function getProjects(request) {
       "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
     },
     success: function (data, status, jqXHR) {
-      populateProjectList(data)
+	    console.log(data)
+      populateProjectList(data.docs)
     },
     error: function (jqXHR, status) {
       console.log('get projects post failed' + jqXHR, status)
