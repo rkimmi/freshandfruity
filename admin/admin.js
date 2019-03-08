@@ -73,9 +73,9 @@ const medDiv = `<div class="col-md-4 mb-3">
 
 $(document).ready(() => {
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
-  window.location = '/freshandfruity/login' : 
-  !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
-  loginPublic() : console.log('nothing happening here')
+    window.location = '/freshandfruity/login' :
+    !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
+      loginPublic() : console.log('nothing happening here')
 })
 
 function loginPublic() {
@@ -85,7 +85,7 @@ function loginPublic() {
     password: 'iampublic'
   }
   // publicUser iampublic
-// send first api call as second parameter
+  // send first api call as second parameter
   login(publicUser, false)
 }
 
@@ -177,7 +177,7 @@ function selectForm(type, id, title) {
       $(`#edit-header`).removeClass('title-selected'),
       editing = false,
       // projectId = createGuid()
-        (formTitle[0].innerText = 'New Project'))
+      (formTitle[0].innerText = 'New Project'))
   clearFormFields()
 }
 
@@ -343,12 +343,12 @@ $('#admin-form').on('submit', function (e) {
 
 
 function sendProject(form, editing, newId) {
-     const req = {
-     selector: {
-       year: { $gt: 2010 }
-     },
-     fields: ["_id", "_rev", "year", "title"]
-   }
+  const req = {
+    selector: {
+      year: { $gt: 2010 }
+    },
+    fields: ["_id", "_rev", "year", "title"]
+  }
   if (!editing && newId) {
     $.ajax({
       type: "PUT",
@@ -363,7 +363,7 @@ function sendProject(form, editing, newId) {
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-         getProjects(req)
+        getProjects(req)
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
@@ -423,7 +423,7 @@ function sendProject(form, editing, newId) {
 
 function redirectAdmin() {
   window.location = '/freshandfruity/fnfadmin'
-	getNavInfo()
+  getNavInfo()
 }
 
 function loginAdmin() {
@@ -437,7 +437,7 @@ function loginAdmin() {
 }
 
 function login(loginReq, callback) {
-	$.ajax({
+  $.ajax({
     type: "POST",
     url: `${baseUrl}/_session`,
     data: JSON.stringify(loginReq),
@@ -474,13 +474,13 @@ function logout() {
     },
     success: function (data, status, jqXHR) {
       console.log('success', data, status, jqXHR)
-	window.location = '/freshandfruity/login'
-	localStorage.removeItem('freshnfruitygallery@gmail.com')
+      window.location = '/freshandfruity/login'
+      localStorage.removeItem('freshnfruitygallery@gmail.com')
     },
-    error: function (jqXHR, status) 
+    error: function (jqXHR, status) {
       console.log(jqXHR, status)
       window.location = '/freshandfruity/login'
-	localStorage.removeItem('freshnfruitygallery@gmail.com')
+      localStorage.removeItem('freshnfruitygallery@gmail.com')
     }
   })
 }
