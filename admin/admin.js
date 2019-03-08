@@ -20,6 +20,7 @@ let state = {
 
 let modalShowing = true
 const baseUrl = 'http://localhost:5984/'
+// change to deployed db url 
 
 let editing = false
 let projectId = null
@@ -283,7 +284,6 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
   }
 }
 
-// function makeJson(formData) {
 $('#admin-form').on('submit', function (e) {
   const form = {
     contributors: [],
@@ -490,12 +490,10 @@ function logout() {
       "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
     },
     success: function (data, status, jqXHR) {
-      console.log('success', data, status, jqXHR)
       window.location = '/freshandfruity/login'
       localStorage.removeItem('freshnfruitygallery@gmail.com')
     },
     error: function (jqXHR, status) {
-      console.log(jqXHR, status)
       window.location = '/freshandfruity/login'
       localStorage.removeItem('freshnfruitygallery@gmail.com')
     }
@@ -529,7 +527,6 @@ function _find(request) {
 function populateProjectList(projects) {
   let div = $(`#projects-list`)
   projects.forEach(project => {
-    // console.log(project)
     const d = document.createElement('div')
     d.className = `modal-title title-small`
     d.id = `${project._id}`
