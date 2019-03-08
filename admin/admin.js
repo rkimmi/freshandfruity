@@ -81,7 +81,7 @@ $(document).ready(() => {
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
     window.location = '/freshandfruity/login' :
     !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
-    login(publicUser, false, false) 
+    login(publicUser, getNavInfo, false) 
     // FOR SEAN, 2nd arg to login will be the first api request, 3rd arg is body of request aka selector
     // eg; login(publicUser, getRecentProjects, requestBody)
     : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
@@ -457,8 +457,10 @@ function login(loginReq, callback, cbBody) {
       callback(cbBody)
     },
     error: function (jqXHR, status) {
-      $(`#login-err`).css('display', 'flex')
-      $(`#login-err`)[0].innerHTML = jqXHR.responseJSON.reason
+      if (window.location.toString().includes('/login')) {
+        $(`#login-err`).css('display', 'flex')
+        $(`#login-err`)[0].innerHTML = jqXHR.responseJSON.reason
+      }
     }
   })
 }
@@ -506,7 +508,7 @@ function getProjects(request) {
     error: function (jqXHR, status) {
       // console.log('get projects post failed' + jqXHR, status)
       console.log(status.code)
-      window.location.includes('/fnfadmin') 
+      window.location.toString().includes('/fnfadmin') 
       ? window.location = 'freshandfruity/login' 
       : login(publicUser, getProjects, request)
     }
