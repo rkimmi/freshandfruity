@@ -422,37 +422,25 @@ function sendProject(form, editing, newId) {
 // }
 
 function redirectAdmin() {
-	console.log('redirect called via callback')
   window.location = '/freshandfruity/fnfadmin'
 	getNavInfo()
 }
 
-function login(loginReq, cb) {
- // let user = loginReq.username
-  let user;
-  let specialCb;
-    if (!loginReq && window.location.toString().includes('/login')) {
-	// To do: CHANGE LOCATION FOR DEPLOY
-    const name = document.getElementById('secret-usr').value
-    const psw = document.getElementById('secret-psw').value
-    user = {
-      username: name,
-      password: psw
-    }
-    // const name = admin.name
-    specialCb  = redirectAdmin
-  } else if (window.location.toString().includes('/fnfadmin')) {
-	// CHANGE LOCATION FOR DEPLOY
-    window.location = '/freshandfruity/login'
+function loginAdmin() {
+  const name = document.getElementById('secret-usr').value
+  const psw = document.getElementById('secret-psw').value
+  user = {
+    username: name,
+    password: psw
   }
-	let request;
-	!loginReq ? request = user : request = loginReq
-	let callback;
-	!cb ? callback = specialCb : callback = cb
+  login(user, redirectAdmin)
+}
+
+function login(loginReq, callback) {
 	$.ajax({
     type: "POST",
     url: `${baseUrl}/_session`,
-    data: JSON.stringify(request),
+    data: JSON.stringify(loginReq),
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
@@ -461,7 +449,6 @@ function login(loginReq, cb) {
       "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
     },
     success: function (data, status, jqXHR) {
-      console.log(jqXHR.responseJSON)
       $(`#login-err`).css('display', 'none')
       localStorage.setItem(data.name, 'assumedLogin=true')
       data.name === 'freshnfruitygallery@gmail.com' ? localStorage.removeItem('publicUser') : localStorage.removeItem('freshnfruitygallery@gmail.com')
