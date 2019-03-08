@@ -74,14 +74,16 @@ const medDiv = `<div class="col-md-4 mb-3">
 const publicUser =
 {
   username: 'publicUser',
-  password: 'iampublc'
+  password: 'iampublic'
 }
 
 $(document).ready(() => {
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
     window.location = '/freshandfruity/login' :
     !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
-    login(publicUser, false) // FOR SEAN, replace 'false' with first api request
+    login(publicUser, false, false) 
+    // FOR SEAN, 2nd arg to login will be the first api request, 3rd arg is body of request aka selector
+    // eg; login(publicUser, getRecentProjects, requestBody)
     : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
     getNavInfo() : console.log('nothing happening here')
 })
@@ -433,10 +435,10 @@ function loginAdmin() {
     username: name,
     password: psw
   }
-  login(user, redirectAdmin)
+  login(user, redirectAdmin, false)
 }
 
-function login(loginReq, callback) {
+function login(loginReq, callback, cbBody) {
   $.ajax({
     type: "POST",
     url: `${baseUrl}/_session`,
@@ -452,7 +454,7 @@ function login(loginReq, callback) {
       $(`#login-err`).css('display', 'none')
       localStorage.setItem(data.name, 'assumedLogin=true')
       data.name === 'freshnfruitygallery@gmail.com' ? localStorage.removeItem('publicUser') : localStorage.removeItem('freshnfruitygallery@gmail.com')
-      callback()
+      callback(cbBody)
     },
     error: function (jqXHR, status) {
       $(`#login-err`).css('display', 'flex')
