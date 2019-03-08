@@ -71,24 +71,26 @@ const medDiv = `<div class="col-md-4 mb-3">
 <button type="button" class="btn del-btn del-btn dd-margin" onclick="delItem(this)">X</button>
 </div>`
 
+const publicUser =
+{
+  username: 'publicUser',
+  password: 'iampublc'
+}
+
 $(document).ready(() => {
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
     window.location = '/freshandfruity/login' :
     !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
-      loginPublic() : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
-        getNavInfo() : console.log('nothing happening here')
+    login(publicUser, false) // FOR SEAN, replace 'false' with first api request
+    : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
+    getNavInfo() : console.log('nothing happening here')
 })
 
-function loginPublic() {
-  const publicUser =
-  {
-    username: 'publicUser',
-    password: 'iampublic'
-  }
-  // publicUser iampublic
-  // send first api call as second parameter
-  login(publicUser, false)
-}
+// function loginPublic() {
+//   // publicUser iampublic
+//   // send first api call as second parameter
+//   login(publicUser, false)
+// }
 
 function getNavInfo() {
   resetForm()
@@ -233,14 +235,11 @@ function populateEdit(project) {
     const input = document.getElementById(idFields[i])
     input.value = project[inputName]
   }
-	console.log(project.scope)
   $(`#${project.scope.replace('/', '-')}`)[0].checked = true
   project.contributors.forEach((contributor, idx) => {
-  console.log(contributor,idx)  
 	  populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
   })
   project.locations.forEach((location, idx) => {
-    console.log(location, idx)
 	  populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
   })
   project.assocMedia.forEach((media, idx) => {
@@ -425,7 +424,6 @@ function createGuid() {
 
 function redirectAdmin() {
   window.location = '/freshandfruity/fnfadmin'
-  // getNavInfo()
 }
 
 function loginAdmin() {
@@ -488,7 +486,6 @@ function logout() {
 }
 
 function getProjects(request) {
-	console.log('getProjects called')
   $.ajax({
     type: "POST",
     url: `${baseUrl}/fnfprojects/_find`,
@@ -505,8 +502,11 @@ function getProjects(request) {
       populateProjectList(data.docs)
     },
     error: function (jqXHR, status) {
-      console.log('get projects post failed' + jqXHR, status)
-      // loginPublic()
+      // console.log('get projects post failed' + jqXHR, status)
+      console.log(status.code)
+      window.location.includes('/fnfadmin') 
+      ? window.location = 'freshandfruity/login' 
+      : login(publicUser, getProjects, request)
     }
   })
 }
