@@ -91,6 +91,7 @@ function loginPublic() {
 }
 
 function getNavInfo() {
+  resetForm()
   projectId = createGuid()
   console.log('getNavInfo called')
    const req = {
@@ -183,8 +184,8 @@ function selectForm(type, id, title) {
   clearFormFields()
 }
 
-function clearFormFields() {
-
+function resetForm() {
+  document.getElementById("admin-form").reset()
 }
 
 function getProjectInfo(id) {
