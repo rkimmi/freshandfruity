@@ -232,12 +232,15 @@ function populateEdit(project) {
     const input = document.getElementById(idFields[i])
     input.value = project[inputName]
   }
-  $(`#${project.scope}`)[0].checked = true
+	console.log(project.scope)
+  $(`#${project.scope.replace('/', '-')}`)[0].checked = true
   project.contributors.forEach((contributor, idx) => {
-    populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
+  console.log(contributor,idx)  
+	  populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
   })
   project.locations.forEach((location, idx) => {
-    populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
+    console.log(location, idx)
+	  populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
   })
   project.assocMedia.forEach((media, idx) => {
     populateMultiple(media, 'med', idx, 'am-title', 'am-url', 'medbtn')
