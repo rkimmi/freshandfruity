@@ -76,7 +76,7 @@ $(document).ready(() => {
     window.location = '/freshandfruity/login' :
     !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
       loginPublic() : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
-	getNavInfo() : console.log('nothing happening here')
+        getNavInfo() : console.log('nothing happening here')
 })
 
 function loginPublic() {
@@ -91,7 +91,7 @@ function loginPublic() {
 }
 
 function getNavInfo() {
-  // projectId = createGuid()
+  projectId = createGuid()
   console.log('getNavInfo called')
    const req = {
     selector: {
@@ -341,21 +341,21 @@ $('#admin-form').on('submit', function (e) {
     }
   }
   const formatted = JSON.stringify(form)
-  sendProject(formatted, editing)
+  sendProject(formatted, editing, projectId)
 })
 
 
-function sendProject(form, editing, newId) {
+function sendProject(form, editing, id) {
   const req = {
     selector: {
       year: { $gt: 2010 }
     },
     fields: ["_id", "_rev", "year", "title"]
   }
-  if (!editing && newId) {
+  // if (!editing && id) {
     $.ajax({
-      type: "PUT",
-      url: `${baseUrl}/fnfprojects/${newId}`,
+      type: !editing ? 'POST' : 'PUT',
+      url: `${baseUrl}/fnfprojects/${id}`,
       data: form,
       contentType: "application/json",
       crossDomain: true,
@@ -374,44 +374,42 @@ function sendProject(form, editing, newId) {
         alert('fail' + status.code)
       }
     })
+  // }
+  // else {
+  //   $.ajax({
+  //     type: "POST",
+  //     url: `${baseUrl}/fnfprojects/${id}`,
+  //     data: form,
+  //     contentType: "application/json",
+  //     crossDomain: true,
+  //     dataType: 'json',
+  //     headers: {
+  //       "Access-Control-Request-Method": "OPTIONS",
+  //       "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+  //     },
+  //     success: function (data, status, jqXHR) {
+  //       // console.log('success', data, status, jqXHR)
+  //       getProjects(req)
+  //     },
+  //     error: function (jqXHR, status) {
+  //       // console.log('error', jqXHR, status.code)
+  //       console.log(jqXHR, status)
+  //       alert('fail' + status.code)
+  //     }
+    // })
   }
-  else {
-    $.ajax({
-      type: "POST",
-      url: `${baseUrl}/fnfprojects`,
-      data: form,
-      contentType: "application/json",
-      crossDomain: true,
-      dataType: 'json',
-      headers: {
-        "Access-Control-Request-Method": "OPTIONS",
-        "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
-      },
-      success: function (data, status, jqXHR) {
-        // console.log('success', data, status, jqXHR)
-        getProjects(req)
-      },
-      error: function (jqXHR, status) {
-        // console.log('error', jqXHR, status.code)
-        console.log(jqXHR, status)
-        alert('fail' + status.code)
-      }
-    })
+
+function createGuid() {
+  var result, i, j
+  result = ''
+  for (j = 0; j < 32; j++) {
+    if (j == 8 || j == 12 || j == 16 || j == 20)
+      result = result + '-';
+    i = Math.floor(Math.random() * 16).toString(16).toUpperCase();
+    result = result + i
   }
+  return result
 }
-
-
-// function createGuid() {
-//   var result, i, j
-//   result = ''
-//   for (j = 0; j < 32; j++) {
-//     if (j == 8 || j == 12 || j == 16 || j == 20)
-//       result = result + '-';
-//     i = Math.floor(Math.random() * 16).toString(16).toUpperCase();
-//     result = result + i
-//   }
-//   return result
-// }
 
 // function readCookie(name) { // return fruity-cookie value
 //   var nameEQ = name + "=";
