@@ -77,34 +77,67 @@ const publicUser =
   password: 'iampublic'
 }
 
+const exampleReq = {
+  selector: {
+    year: { $gt: 2010 }
+  }
+}
+
 $(document).ready(() => {
-  window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') ?
-    window.location = '/freshandfruity/login' :
-    !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') ?
-    login(publicUser, getNavInfo, false) 
-    // FOR SEAN, 2nd arg to login will be the first api request, 3rd arg is body of request aka selector
-    // eg; login(publicUser, getRecentProjects, requestBody)
-    : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') ?
-    getNavInfo() : console.log('nothing happening here')
+  window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') 
+  ? window.location = '/freshandfruity/login' 
+    : !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') 
+    ? login(publicUser, getAllProjects, exampleReq) // FOR SEAN TO CHANGE
+    // change 2nd and 3rd arg 
+    // Above login is called when no publicUser in localStorage (we assume user isnt authorised with public login)
+    // 2nd arg to login fnc will be the first api request to be called on successful login,
+    // 3rd arg is the request body aka selector
+    // see example getAllProjects below
+    : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') 
+    ? getNavInfo() 
+    : getAllProjects(exampleReq) // FOR SEAN TO CHANGE
+    // this will be called if all goes well / user is authorised and not on admin routes
+    // Replace getAllProjects() with first api request
+    // see example getAllProjects() below
 })
 
-// function loginPublic() {
-//   // publicUser iampublic
-//   // send first api call as second parameter
-//   login(publicUser, false)
-// }
+function getAllProjects(req) {
+  // Call _find for all db queries, just change selectors / req body
+  _find(req)
+  // to populate nav, best to specify only required fields 
+  // e.g;
+  // const sampleReq2 = {
+  //   selector: {
+  //     year: { $gt: 2010 }
+  //   },
+  //   fields: ["_id", "title"]
+  // }
+  // this will return with { docs: [{project} {project} {project}] }
+  // then on click of project, make additional request specifying project by id
+  // e.g;
+  // const sampleReq1 = {
+  //   selector: {
+  //     _id: {
+  //       "$eq": id
+  //     }
+  //   }
+  // }
+  // this will return with { docs: [{project}] }
+  // more info on couchdb selectors:
+  // https://docs.couchdb.org/en/stable/api/database/find.html#find-selectors
+}
+
 
 function getNavInfo() {
   resetForm()
   projectId = createGuid()
-  console.log('getNavInfo called')
    const req = {
     selector: {
       year: { $gt: 2010 }
     },
     fields: ["_id", "_rev", "year", "title"]
   }
-  getProjects(req)
+  _find(req)
 }
 
 function addField(name) {
@@ -171,57 +204,33 @@ function hideModal() {
 
 function selectForm(type, id, title) {
   const formTitle = $(`#form-title`)
-  type === 'edit'
-    ? ((formTitle[0].innerText = 'Edit Project'),
-      $(`#edit-header`).addClass('title-selected'),
-      $(`#new-header`).removeClass('title-selected'),
-      $(`#edit-title`)[0].innerText = title,
-      editing = true,
-      projectId = id,
-      getProjectInfo(id))
-    : ($(`#new-header`).addClass('title-selected'),
+  if (type === 'edit') {
+    formTitle[0].innerText = 'Edit Project'
+    $(`#edit-header`).addClass('title-selected')
+    $(`#new-header`).removeClass('title-selected')
+    $(`#edit-title`)[0].innerText = title
+    editing = true
+    projectId = id
+    const req = {
+      selector: {
+        _id: {
+          "$eq": id
+        }
+      }
+    }
+    _find(req)
+  } else {
+    ($(`#new-header`).addClass('title-selected'),
       $(`#edit-title`)[0].innerText = '',
       $(`#edit-header`).removeClass('title-selected'),
       editing = false,
-      // projectId = createGuid()
       (formTitle[0].innerText = 'New Project'))
-  clearFormFields()
+    clearFormFields()
+  }
 }
 
 function resetForm() {
   document.getElementById("admin-form").reset()
-}
-
-function getProjectInfo(id) {
-  // combine all /_find queries, send req, and callback
-  const req = {
-    selector: {
-      _id: {
-        "$eq": id
-      }
-    }
-  }
-  $.ajax({
-    type: "POST",
-    url: `${baseUrl}/fnfprojects/_find`,
-    data: JSON.stringify(req),
-    contentType: "application/json",
-    crossDomain: true,
-    dataType: 'json',
-    headers: {
-      "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
-    },
-    success: function (data, status, jqXHR) {
-      console.log('success', data, status, jqXHR)
-      populateEdit(data.docs[0])
-    },
-    error: function (jqXHR, status) {
-      // console.log('error', jqXHR, status.code)
-      console.log('get projects post failed' + jqXHR, status)
-      // alert('fail' + status.code)
-    }
-  })
 }
 
 function populateEdit(project) {
@@ -368,7 +377,7 @@ function sendProject(form, editing, id) {
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-        getProjects(req)
+        _find(req)
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
@@ -391,7 +400,7 @@ function sendProject(form, editing, id) {
   //     },
   //     success: function (data, status, jqXHR) {
   //       // console.log('success', data, status, jqXHR)
-  //       getProjects(req)
+  //       _find(req)
   //     },
   //     error: function (jqXHR, status) {
   //       // console.log('error', jqXHR, status.code)
@@ -439,6 +448,10 @@ function loginAdmin() {
 }
 
 function login(loginReq, callback, cbBody) {
+  // login called if no user in localStorage OR on unauthorised request to db
+  // callback = function to be called on successful login
+  // callback will be initial failed query if query responded with unauthorised
+  // ^ see _find() calls login with failed query params
   $.ajax({
     type: "POST",
     url: `${baseUrl}/_session`,
@@ -489,7 +502,7 @@ function logout() {
   })
 }
 
-function getProjects(request) {
+function _find(request) {
   $.ajax({
     type: "POST",
     url: `${baseUrl}/fnfprojects/_find`,
@@ -502,15 +515,13 @@ function getProjects(request) {
       "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
     },
     success: function (data, status, jqXHR) {
-	    console.log(data)
       populateProjectList(data.docs)
     },
     error: function (jqXHR, status) {
       // console.log('get projects post failed' + jqXHR, status)
-      console.log(status.code)
       window.location.toString().includes('/fnfadmin') 
       ? window.location = 'freshandfruity/login' 
-      : login(publicUser, getProjects, request)
+      : login(publicUser, _find, request)
     }
   })
 }
