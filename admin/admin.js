@@ -284,8 +284,11 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
   }
 }
 
-$('#admin-form').on('submit', function (e) {
-  const form = {
+ $('#admin-form').on('submit', function (e) {
+console.log(e)
+e.preventDefault()
+	 // function makeJson(formData) {
+const form = {
     contributors: [],
     locations: [],
     assocMedia: [],
@@ -385,7 +388,8 @@ function sendProject(form, editing, id) {
         alert('fail' + status.code)
       }
     })
-  // }
+  return false;
+	// }
   // else {
   //   $.ajax({
   //     type: "POST",
