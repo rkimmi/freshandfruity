@@ -291,7 +291,7 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
 }
 
 function formatForm() {
-    const form = {
+const form = {
     contributors: [],
     locations: [],
     assocMedia: [],
@@ -391,7 +391,8 @@ function sendProject(form, editing, id) {
         alert('fail' + status.code)
       }
     })
-  // }
+  return false;
+	// }
   // else {
   //   $.ajax({
   //     type: "POST",
