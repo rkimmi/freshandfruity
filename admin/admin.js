@@ -19,7 +19,7 @@ let state = {
 }
 
 let modalShowing = true
-const baseUrl = 'http://localhost:5984/'
+const baseUrl = 'http://192.168.1.227:5984'
 // change to deployed db url 
 
 let editing = false
@@ -85,6 +85,7 @@ const exampleReq = {
 }
 
 $(document).ready(() => {
+
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') 
   ? window.location = '/freshandfruity/login' 
     : !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') 
@@ -100,6 +101,11 @@ $(document).ready(() => {
     // this will be called if all goes well / user is authorised and not on admin routes
     // Replace getAllProjects() with first api request
     // see example getAllProjects() below
+
+$('#admin-form').on('submit', function (e) {
+  e.preventDefault()
+  formatForm()
+})
 })
 
 function getAllProjects(req) {
@@ -284,8 +290,8 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
   }
 }
 
-$('#admin-form').on('submit', function (e) {
-  const form = {
+function formatForm() {
+    const form = {
     contributors: [],
     locations: [],
     assocMedia: [],
@@ -353,7 +359,7 @@ $('#admin-form').on('submit', function (e) {
   }
   const formatted = JSON.stringify(form)
   sendProject(formatted, editing, projectId)
-})
+}
 
 
 function sendProject(form, editing, id) {
