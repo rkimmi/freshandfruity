@@ -110,8 +110,8 @@ $(document).ready(() => {
 
 function getAllProjects(req) {
   // Call _find for all db queries, just change selectors / req body
-  const mockCallback = function() => {return true }
-	_find(req, mockCallback)
+  //const mockCallback = function(()  => {return true })
+	_find(req)
   // to populate nav, best to specify only required fields 
   // e.g;
   // const sampleReq2 = {
@@ -241,7 +241,8 @@ function resetForm() {
   document.getElementById("admin-form").reset()
 }
 
-function populateEdit(project) {
+function populateEdit(projectArr) {
+  let project = projectArr[0]
   const idFields = [
     'title',
     'description',
