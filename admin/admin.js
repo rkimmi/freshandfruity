@@ -104,7 +104,7 @@ $(document).ready(() => {
 
 $('#admin-form').on('submit', function (e) {
   e.preventDefault()
-  formatForm()
+  formatForm(e.currentTarget)
 })
 })
 
@@ -137,7 +137,7 @@ function getAllProjects(req) {
 
 function getNavInfo() {
   resetForm()
-  projectId = createGuid()
+ // projectId = createGuid()
    const req = {
     selector: {
       year: { $gt: 2010 }
@@ -290,7 +290,7 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
   }
 }
 
-function formatForm() {
+function formatForm(formData) {
 const form = {
     contributors: [],
     locations: [],
@@ -372,7 +372,7 @@ function sendProject(form, editing, id) {
   // if (!editing && id) {
     $.ajax({
       type: !editing ? 'POST' : 'PUT',
-      url: `${baseUrl}/fnfprojects/${id}`,
+      url: !editing ? `${baseUrl}/fnfprojects` : `${baseUrl}/fnfprojects/${id}`,
       data: form,
       contentType: "application/json",
       crossDomain: true,
@@ -392,7 +392,7 @@ function sendProject(form, editing, id) {
       }
     })
   return false;
-	// }
+}
   // else {
   //   $.ajax({
   //     type: "POST",
@@ -415,19 +415,17 @@ function sendProject(form, editing, id) {
   //       alert('fail' + status.code)
   //     }
     // })
-  }
-
-function createGuid() {
-  var result, i, j
-  result = ''
-  for (j = 0; j < 32; j++) {
-    if (j == 8 || j == 12 || j == 16 || j == 20)
-      result = result + '-';
-    i = Math.floor(Math.random() * 16).toString(16).toUpperCase();
-    result = result + i
-  }
-  return result
-}
+// function createGuid() {
+// var result, i, j
+//  result = ''
+//  for (j = 0; j < 32; j++) {
+//  if (j == 8 || j == 12 || j == 16 || j == 20)
+//  result = result + '-';
+//  i = Math.floor(Math.random() * 16).toString(16).toUpperCase();
+//  result = result + i
+// }
+// return result
+//}
 
 // function readCookie(name) { // return fruity-cookie value
 //   var nameEQ = name + "=";
