@@ -144,7 +144,7 @@ function getNavInfo() {
     },
     fields: ["_id", "_rev", "year", "title"]
   }
-  _find(req)
+  _find(req, populateProjectList)
 }
 
 function addField(name) {
@@ -225,7 +225,7 @@ function selectForm(type, id, title) {
         }
       }
     }
-    _find(req)
+    _find(req, populateEdit)
   } else {
     ($(`#new-header`).addClass('title-selected'),
       $(`#edit-title`)[0].innerText = '',
@@ -363,12 +363,6 @@ const form = {
 
 
 function sendProject(form, editing, id) {
-  const req = {
-    selector: {
-      year: { $gt: 2010 }
-    },
-    fields: ["_id", "_rev", "year", "title"]
-  }
   // if (!editing && id) {
     $.ajax({
       type: !editing ? 'POST' : 'PUT',
@@ -383,7 +377,7 @@ function sendProject(form, editing, id) {
       },
       success: function (data, status, jqXHR) {
         console.log('success', data, status, jqXHR)
-        _find(req)
+        _find(req, populateProjectList)
       },
       error: function (jqXHR, status) {
         // console.log('error', jqXHR, status.code)
@@ -505,7 +499,7 @@ function logout() {
   })
 }
 
-function _find(request) {
+function _find(request, callback) {
   $.ajax({
     type: "POST",
     url: `${baseUrl}/fnfprojects/_find`,
@@ -518,7 +512,7 @@ function _find(request) {
       "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
     },
     success: function (data, status, jqXHR) {
-      populateProjectList(data.docs)
+      callback(data.docs)
     },
     error: function (jqXHR, status) {
       // console.log('get projects post failed' + jqXHR, status)
