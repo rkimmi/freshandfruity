@@ -86,31 +86,32 @@ const exampleReq = {
 
 $(document).ready(() => {
 
-  window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com') 
-  ? window.location = '/freshandfruity/login' 
-    : !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser') 
-    ? login(publicUser, getAllProjects, exampleReq) // FOR SEAN TO CHANGE
-    // change 2nd and 3rd arg 
-    // Above login is called when no publicUser in localStorage (we assume user isnt authorised with public login)
-    // 2nd arg to login fnc will be the first api request to be called on successful login,
-    // 3rd arg is the request body aka selector
-    // see example getAllProjects below
-    : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com') 
-    ? getNavInfo() 
-    : getAllProjects(exampleReq) // FOR SEAN TO CHANGE
-    // this will be called if all goes well / user is authorised and not on admin routes
-    // Replace getAllProjects() with first api request
-    // see example getAllProjects() below
+  window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com')
+    ? window.location = '/freshandfruity/login'
+    : !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser')
+      ? login(publicUser, getAllProjects, exampleReq) // FOR SEAN TO CHANGE
+      // change 2nd and 3rd arg 
+      // Above login is called when no publicUser in localStorage (we assume user isnt authorised with public login)
+      // 2nd arg to login fnc will be the first api request to be called on successful login,
+      // 3rd arg is the request body aka selector
+      // see example getAllProjects below
+      : window.location.toString().includes('/fnfadmin') && localStorage.getItem('freshnfruitygallery@gmail.com')
+        ? getNavInfo()
+        : getAllProjects(exampleReq) // FOR SEAN TO CHANGE
+  // this will be called if all goes well / user is authorised and not on admin routes
+  // Replace getAllProjects() with first api request
+  // see example getAllProjects() below
 
-$('#admin-form').on('submit', function (e) {
-  e.preventDefault()
-  formatForm(e.currentTarget)
-})
+  $('#admin-form').on('submit', function (e) {
+    e.preventDefault()
+    formatForm(e.currentTarget)
+  })
 })
 
 function getAllProjects(req) {
   // Call _find for all db queries, just change selectors / req body
-  _find(req)
+  const mockCallback = function() => {return true }
+	_find(req, mockCallback)
   // to populate nav, best to specify only required fields 
   // e.g;
   // const sampleReq2 = {
@@ -137,8 +138,8 @@ function getAllProjects(req) {
 
 function getNavInfo() {
   resetForm()
- // projectId = createGuid()
-   const req = {
+  // projectId = createGuid()
+  const req = {
     selector: {
       year: { $gt: 2010 }
     },
@@ -255,10 +256,10 @@ function populateEdit(project) {
   }
   $(`#${project.scope.replace('/', '-')}`)[0].checked = true
   project.contributors.forEach((contributor, idx) => {
-	  populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
+    populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
   })
   project.locations.forEach((location, idx) => {
-	  populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
+    populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
   })
   project.assocMedia.forEach((media, idx) => {
     populateMultiple(media, 'med', idx, 'am-title', 'am-url', 'medbtn')
@@ -291,7 +292,7 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
 }
 
 function formatForm(formData) {
-const form = {
+  const form = {
     contributors: [],
     locations: [],
     assocMedia: [],
@@ -387,28 +388,28 @@ function sendProject(form, editing, id) {
     })
   return false;
 }
-  // else {
-  //   $.ajax({
-  //     type: "POST",
-  //     url: `${baseUrl}/fnfprojects/${id}`,
-  //     data: form,
-  //     contentType: "application/json",
-  //     crossDomain: true,
-  //     dataType: 'json',
-  //     headers: {
-  //       "Access-Control-Request-Method": "OPTIONS",
-  //       "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
-  //     },
-  //     success: function (data, status, jqXHR) {
-  //       // console.log('success', data, status, jqXHR)
-  //       _find(req)
-  //     },
-  //     error: function (jqXHR, status) {
-  //       // console.log('error', jqXHR, status.code)
-  //       console.log(jqXHR, status)
-  //       alert('fail' + status.code)
-  //     }
-    // })
+// else {
+//   $.ajax({
+//     type: "POST",
+//     url: `${baseUrl}/fnfprojects/${id}`,
+//     data: form,
+//     contentType: "application/json",
+//     crossDomain: true,
+//     dataType: 'json',
+//     headers: {
+//       "Access-Control-Request-Method": "OPTIONS",
+//       "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+//     },
+//     success: function (data, status, jqXHR) {
+//       // console.log('success', data, status, jqXHR)
+//       _find(req)
+//     },
+//     error: function (jqXHR, status) {
+//       // console.log('error', jqXHR, status.code)
+//       console.log(jqXHR, status)
+//       alert('fail' + status.code)
+//     }
+// })
 // function createGuid() {
 // var result, i, j
 //  result = ''
@@ -516,15 +517,16 @@ function _find(request, callback) {
     },
     error: function (jqXHR, status) {
       // console.log('get projects post failed' + jqXHR, status)
-      window.location.toString().includes('/fnfadmin') 
-      ? window.location = 'freshandfruity/login' 
-      : login(publicUser, _find, request)
+      window.location.toString().includes('/fnfadmin')
+        ? window.location = 'freshandfruity/login'
+        : login(publicUser, _find, request)
     }
   })
 }
 
 function populateProjectList(projects) {
   let div = $(`#projects-list`)
+  div[0].innerHTML = "";
   projects.forEach(project => {
     const d = document.createElement('div')
     d.className = `modal-title title-small`
