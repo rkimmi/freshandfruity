@@ -24,6 +24,7 @@ const baseUrl = 'http://192.168.1.227:5984'
 
 let editing = false
 let projectId = null
+let _rev = ''
 
 const contDiv = `<div class="col-md-5 mb-3">
 <small id="role-help" class="text-hidden"></small>
@@ -233,7 +234,7 @@ function selectForm(type, id, title) {
       $(`#edit-header`).removeClass('title-selected'),
       editing = false,
       (formTitle[0].innerText = 'New Project'))
-    clearFormFields()
+      resetForm()
   }
 }
 
@@ -243,6 +244,7 @@ function resetForm() {
 
 function populateEdit(projectArr) {
   let project = projectArr[0]
+  _rev = project._rev
   const idFields = [
     'title',
     'description',
@@ -262,6 +264,7 @@ function populateEdit(projectArr) {
   project.locations.forEach((location, idx) => {
     populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
   })
+	console.log(project.assocMedia)
   project.assocMedia.forEach((media, idx) => {
     populateMultiple(media, 'med', idx, 'am-title', 'am-url', 'medbtn')
   })
@@ -270,8 +273,12 @@ function populateEdit(projectArr) {
     for (let j = 0; j < project.categories.length; j++) {
       let category = project.categories[j]
       if (category === catAbr[i].name.toLowerCase()) {
-        $(`#${catAbr[i].id}`).addClass('cat-selected')
-      }
+	// let catDiv = document.getElementById(catAbr[i].id.toString())
+	      // $(`#${catAbr[i].id}`)
+     //  console.log(catDiv)
+       // catDiv[0].classList.add('cat-selected')
+      
+     }
     }
   }
 }
@@ -283,7 +290,7 @@ function populateMultiple(item, short, idx, field1, field2, field3) {
     $(`.${field2}`)[idx].value = item[field2.split('-')[1]]
     field3 ? $(`.${field3}`)[idx].innerText = item.type : '' // only for media select
     inputCount++
-  }
+  } 
   else if (idx <= inputCount) { // previndex
     addField(short)
     $(`.${field1}`)[idx].value = item[field1.split('-')[1]]
@@ -357,7 +364,9 @@ function formatForm(formData) {
       if (formData[i].id === idFields[i]) {
         form[input.id] = input.value
       }
-    }
+    } 
+  if (editing) {
+  form._rev = _rev
   }
   const formatted = JSON.stringify(form)
   sendProject(formatted, editing, projectId)
@@ -366,6 +375,12 @@ function formatForm(formData) {
 
 function sendProject(form, editing, id) {
   // if (!editing && id) {
+      const req = {
+    selector: {
+      year: { $gt: 2010 }
+    },
+    fields: ["_id", "_rev", "year", "title"]
+  }
     $.ajax({
       type: !editing ? 'POST' : 'PUT',
       url: !editing ? `${baseUrl}/fnfprojects` : `${baseUrl}/fnfprojects/${id}`,
@@ -526,7 +541,8 @@ function _find(request, callback) {
 }
 
 function populateProjectList(projects) {
-  let div = $(`#projects-list`)
+  console.log('called', projects)
+	let div = $(`#projects-list`)
   div[0].innerHTML = "";
   projects.forEach(project => {
     const d = document.createElement('div')
