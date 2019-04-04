@@ -370,6 +370,7 @@ function formatForm(formData) {
   }
   const formatted = JSON.stringify(form)
   sendProject(formatted, editing, projectId)
+  }
 }
 
 
