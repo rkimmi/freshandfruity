@@ -423,7 +423,7 @@ function sendProject(form, editing, id) {
 
 function justifySubmit() {
   let formRes = document.getElementById('form-err')
-  formErr.style.display = 'flex !important'
+  formRes.style.display = 'flex !important'
   formRes.style.color = 'red !important'
 	formRes.innerText = 'Success!'
 	setTimeout(() => {
