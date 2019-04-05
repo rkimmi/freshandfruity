@@ -382,7 +382,7 @@ function formatForm(formData) {
 
 function falsifyForm(missing) {
   let formErr = document.getElementById('form-err')
-  formErr.style.display = 'flex !important'
+  formErr.style.display = 'flex'
 	formErr.innerText = `Please fill in missing fields. Missing: ${missing}`
 }
 
@@ -413,7 +413,7 @@ function sendProject(form, editing, id) {
       error: function (res, status) {
         let formErr = document.getElementById('form-err')
         let response = res.responseJSON
-        formErr.style.display = 'flex !important'        
+        formErr.style.display = 'flex'        
 	      formErr.innerText = `Error: ${response.reason}`
         //alert('fail' + status.code)
       }
@@ -423,8 +423,8 @@ function sendProject(form, editing, id) {
 
 function justifySubmit() {
   let formRes = document.getElementById('form-err')
-  formRes.style.display = 'flex !important'
-  formRes.style.color = 'red !important'
+  formRes.style.display = 'flex'
+  formRes.style.color = 'red'
 	formRes.innerText = 'Success!'
 	setTimeout(() => {
 	resetForm()
