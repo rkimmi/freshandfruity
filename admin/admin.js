@@ -381,7 +381,6 @@ function formatForm(formData) {
 }
 
 function falsifyForm(missing) {
-console.log('incorrect!')
 let formErr = document.getElementById('form-err')
 	formErr.innerText = `Please fill in missing fields. Missing: ${missing}`
 }
@@ -412,8 +411,8 @@ function sendProject(form, editing, id) {
       },
       error: function (res, status) {
         let formErr = document.getElementById('form-err')
-	let response = res.responseJSON
-	formErr.innerText = `Error: ${response.reason}`
+	      let response = res.responseJSON
+	      formErr.innerText = `Error: ${response.reason}`
         //alert('fail' + status.code)
       }
     })
@@ -421,8 +420,8 @@ function sendProject(form, editing, id) {
 }
 
 function justifySubmit() {
-	console.log('yeehaw')
-    let formRes = document.getElementById('form-err')
+  let formRes = document.getElementById('form-err')
+  formRes.style.color = 'red !important'
 	formRes.innerText = 'Success!'
 	setTimeout(() => {
 	resetForm()

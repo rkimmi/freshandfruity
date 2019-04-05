@@ -327,22 +327,15 @@ border-bottom-right-radius: 8px;
     /* margin-bottom: 15px; */
 }
 
-#login-err {
+.err {
   display: none;
   margin-left: auto;
   margin-right: auto;
-  color: white;
+  color: red;
   background-color: #ff8cff99;
   padding: 5px;
   border-radius: 8px;
   font-size: 12px;
-}
-
-#form-err {
-  font-family: Comic Sans MS, cursive, sans-serif;
-  margin-left: 15px;
-line-height: 40px;
-color: red;
 }
 
 
