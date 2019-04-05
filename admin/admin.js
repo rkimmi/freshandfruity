@@ -425,6 +425,7 @@ function justifySubmit() {
   let formRes = document.getElementById('form-err')
   formRes.style.display = 'flex'
   formRes.style.color = 'white'
+  formRes.style.backgroundColor = '#f0f9;'
 	formRes.innerText = 'Success!'
 	setTimeout(() => {
 	resetForm()

@@ -330,7 +330,7 @@ border-bottom-right-radius: 8px;
 .err {
   display: none;
   color: red;
-  background-color: #f0f9;
+  background-color: #ff8cff99;
   border-radius: 8px;
   font-size: 12px;
   padding: 5px;
@@ -343,10 +343,10 @@ border-bottom-right-radius: 8px;
 }
 
 #form-err {
-margin-left: 15px;
-line-height: 25px;
-padding: 8px;
-font-size: 14px;
+  margin-left: 15px;
+  line-height: 25px;
+  padding: 8px;
+  font-size: 14px;
 }
 
 
