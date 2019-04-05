@@ -369,7 +369,7 @@ function formatForm(formData) {
     } 
   }
   if (editing) {
-    form._rev = rev
+    form._rev = _rev
   }
   if (form.scope === '') {
 	  falsifyForm('Location online / onsite')
@@ -406,16 +406,28 @@ function sendProject(form, editing, id) {
         "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
       },
       success: function (data, status, jqXHR) {
-        console.log('success', data, status, jqXHR)
+        justifySubmit()
         _find(req, populateProjectList)
       },
-      error: function (jqXHR, status) {
-        // console.log('error', jqXHR, status.code)
-        console.log(jqXHR, status)
-        alert('fail' + status.code)
+      error: function (res, status) {
+        let formErr = document.getElementById('form-err')
+	let response = res.responseJSON
+	formErr.innerText = `Error: ${response.reason}`
+        //alert('fail' + status.code)
       }
     })
   return false;
+}
+
+function justifySubmit() {
+	console.log('yeehaw')
+    let formRes = document.getElementById('form-err')
+	formRes.innerText = 'Success!'
+	setTimeout(() => {
+	resetForm()
+	selectForm('new')
+	window.scrollTo(0, 0)
+	}, 2000)
 }
 // else {
 //   $.ajax({
