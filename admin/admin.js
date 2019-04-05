@@ -7,7 +7,7 @@ const catAbr = [
   { name: 'Audio', id: 'cat-A' },
   { name: 'Jewellery', id: 'cat-J' },
   { name: 'Video', id: 'cat-V' },
-  { name: 'Fashion', id: 'cat-F' },
+  { name: 'Fashion / Textiles', id: 'cat-F' },
   { name: 'Film Screening', id: 'cat-FS' },
   { name: 'Workshop / Hui', id: 'cat-WH' },
 ]
@@ -246,6 +246,7 @@ document.getElementById("admin-form").reset()
 }
 
 function populateEdit(projectArr) {
+	resetForm()
   let project = projectArr[0]
   _rev = project._rev
   const idFields = [
@@ -277,7 +278,7 @@ function populateEdit(projectArr) {
   for (let i = 0; i < catAbr.length; i++) {
     for (let j = 0; j < project.categories.length; j++) {
       let category = project.categories[j]
-      if (category === catAbr[i].name.toLowerCase()) {
+      if (category.toLowerCase()  === catAbr[i].name.toLowerCase()) {
 	 let catDiv = document.getElementById(catAbr[i].id.toString())
 	      // $(`#${catAbr[i].id}`)
      //  console.log(catDiv)
