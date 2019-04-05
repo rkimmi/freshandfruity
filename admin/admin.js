@@ -424,7 +424,7 @@ function sendProject(form, editing, id) {
 function justifySubmit() {
   let formRes = document.getElementById('form-err')
   formRes.style.display = 'flex'
-  formRes.style.color = 'red'
+  formRes.style.color = 'white'
 	formRes.innerText = 'Success!'
 	setTimeout(() => {
 	resetForm()

@@ -330,19 +330,23 @@ border-bottom-right-radius: 8px;
 .err {
   display: none;
   color: red;
-  background-color: #ff8cff99;
+  background-color: #f0f9;
   border-radius: 8px;
   font-size: 12px;
+  padding: 5px;
 }
 
 #login-err {
   margin-left: auto;
   margin-right: auto;
-  padding: 5px;
+
 }
 
 #form-err {
-  
+margin-left: 15px;
+line-height: 25px;
+padding: 8px;
+font-size: 14px;
 }
 
 
