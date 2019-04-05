@@ -89,6 +89,7 @@ $(document).ready(() => {
 
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com')
     ? window.location = '/freshandfruity/login'
+    : window.location.toString().includes('login') ? console.log('waiting on admin login')
     : !window.location.toString().includes('login') && !window.location.toString().includes('/fnfadmin') && !localStorage.getItem('publicUser')
       ? login(publicUser, getAllProjects, exampleReq) // FOR SEAN TO CHANGE
       // change 2nd and 3rd arg 
