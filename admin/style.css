@@ -36,6 +36,7 @@
 .row {
   display: flex;
   flex-direction: row;
+  margin-left: 0;
 }
 
 .project-modal {
