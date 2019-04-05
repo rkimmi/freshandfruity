@@ -240,7 +240,9 @@ function selectForm(type, id, title) {
 }
 
 function resetForm() {
-  document.getElementById("admin-form").reset()
+let formErr = document.getElementById('form-err')
+formErr.style.display = 'none'
+document.getElementById("admin-form").reset()
 }
 
 function populateEdit(projectArr) {
@@ -276,11 +278,10 @@ function populateEdit(projectArr) {
     for (let j = 0; j < project.categories.length; j++) {
       let category = project.categories[j]
       if (category === catAbr[i].name.toLowerCase()) {
-	// let catDiv = document.getElementById(catAbr[i].id.toString())
+	 let catDiv = document.getElementById(catAbr[i].id.toString())
 	      // $(`#${catAbr[i].id}`)
      //  console.log(catDiv)
-       // catDiv[0].classList.add('cat-selected')
-      
+        catDiv.classList.add('cat-selected')
      }
     }
   }
