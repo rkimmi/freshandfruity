@@ -257,18 +257,20 @@ function populateEdit(projectArr) {
     const input = document.getElementById(idFields[i])
     input.value = project[inputName]
   }
-  $(`#${project.scope.replace('/', '-')}`)[0].checked = true
+  let projectScope = document.getElementById(`${project.scope.replace('/', '-')}`)
+  projectScope.checked = true
+ // $(`#${project.scope.replace('/', '-')}`)[0].checked = true
   project.contributors.forEach((contributor, idx) => {
     populateMultiple(contributor, 'cont', idx, 'c-name', 'c-role')
   })
   project.locations.forEach((location, idx) => {
     populateMultiple(location, 'loc', idx, 'l-name', 'l-url')
   })
-	console.log(project.assocMedia)
   project.assocMedia.forEach((media, idx) => {
     populateMultiple(media, 'med', idx, 'am-title', 'am-url', 'medbtn')
   })
-  $(`#images`)[0].value = project.images.toString()
+  let images = document.getElementById('images')
+  images.value = project.images.toString()
   for (let i = 0; i < catAbr.length; i++) {
     for (let j = 0; j < project.categories.length; j++) {
       let category = project.categories[j]
@@ -365,12 +367,22 @@ function formatForm(formData) {
         form[input.id] = input.value
       }
     } 
-  if (editing) {
-  form._rev = _rev
   }
+  if (editing) {
+    form._rev = rev
+  }
+  if (form.scope === '') {
+	  falsifyForm('Location online / onsite')
+  } else {
   const formatted = JSON.stringify(form)
   sendProject(formatted, editing, projectId)
-  }
+}
+}
+
+function falsifyForm(missing) {
+console.log('incorrect!')
+let formErr = document.getElementById('form-err')
+	formErr.innerText = `Please fill in missing fields. Missing: ${missing}`
 }
 
 
