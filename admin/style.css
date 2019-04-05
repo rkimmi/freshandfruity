@@ -333,4 +333,16 @@ border-bottom-right-radius: 8px;
   font-size: 12px;
 }
 
+#form-err {
+  font-family: Comic Sans MS, cursive, sans-serif;
+  margin-left: 15px;
+line-height: 40px;
+color: red;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
 
