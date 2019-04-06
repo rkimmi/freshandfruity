@@ -248,7 +248,7 @@ document.getElementById("admin-form").reset()
 }
 
 function populateEdit(projectArr) {
-	resetForm()
+	// resetForm()
   let project = projectArr[0]
   _rev = project._rev
   const idFields = [
