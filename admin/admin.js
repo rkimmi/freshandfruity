@@ -86,7 +86,6 @@ const exampleReq = {
 }
 
 $(document).ready(() => {
-
   window.location.toString().includes('/fnfadmin') && !localStorage.getItem('freshnfruitygallery@gmail.com')
     ? window.location = '/freshandfruity/login'
     : window.location.toString().includes('login') ? console.log('waiting on admin login')
@@ -103,8 +102,7 @@ $(document).ready(() => {
   // this will be called if all goes well / user is authorised and not on admin routes
   // Replace getAllProjects() with first api request
   // see example getAllProjects() below
-
-  $('#admin-form').on('submit', function (e) {
+  $('#admin-form').on('submit', function (e) { 
     e.preventDefault()
     formatForm(e.currentTarget)
   })
@@ -248,8 +246,9 @@ function resetForm() {
   locCount = 1
   medCount = 1
   for (let i = 0; i < catAbr.length; i++) {
-    let cat = document.getElementById(`${cat[i].id}`)
-    cat.classList.remove('cat-selected')
+    console.log(cat[i].id)
+    //let cat = document.getElementById(`${cat[i].id}`)
+   // cat.classList.remove('cat-selected')
   }
   document.getElementById("admin-form").reset()
 }
