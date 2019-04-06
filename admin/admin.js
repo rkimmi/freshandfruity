@@ -228,6 +228,8 @@ function selectForm(type, id, title) {
         }
       }
     }
+    resetForm()
+    window.scrollTo(0, 0)
     _find(req, populateEdit)
   } else {
     ($(`#new-header`).addClass('title-selected'),
