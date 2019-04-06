@@ -247,9 +247,9 @@ function resetForm() {
   medCount = 1
   for (let i = 0; i < catAbr.length; i++) {
     let cat = document.getElementById(`${catAbr[i].id}`)
-    console.log(cat[i].id)
+    console.log(cat)
     //let cat = document.getElementById(`${cat[i].id}`)
-   // cat.classList.remove('cat-selected')
+    cat.classList.remove('cat-selected')
   }
   document.getElementById("admin-form").reset()
 }
