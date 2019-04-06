@@ -242,9 +242,16 @@ function selectForm(type, id, title) {
 }
 
 function resetForm() {
-let formErr = document.getElementById('form-err')
-formErr.style.display = 'none'
-document.getElementById("admin-form").reset()
+  let formErr = document.getElementById('form-err')
+  formErr.style.display = 'none'
+  contCount = 1
+  locCount = 1
+  medCount = 1
+  for (let i = 0; i < catAbr.length; i++) {
+    let cat = document.getElementById(`${cat[i].id}`)
+    cat.classList.remove('cat-selected')
+  }
+  document.getElementById("admin-form").reset()
 }
 
 function populateEdit(projectArr) {
@@ -281,7 +288,7 @@ function populateEdit(projectArr) {
     for (let j = 0; j < project.categories.length; j++) {
       let category = project.categories[j]
       if (category.toLowerCase()  === catAbr[i].name.toLowerCase()) {
-	 let catDiv = document.getElementById(catAbr[i].id.toString())
+	    let catDiv = document.getElementById(catAbr[i].id.toString())
 	      // $(`#${catAbr[i].id}`)
      //  console.log(catDiv)
         catDiv.classList.add('cat-selected')
