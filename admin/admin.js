@@ -137,7 +137,7 @@ function getAllProjects(req) {
 
 
 function getNavInfo() {
-  resetForm()
+  // resetForm()
   // projectId = createGuid()
   const req = {
     selector: {
@@ -246,6 +246,7 @@ function resetForm() {
   locCount = 1
   medCount = 1
   for (let i = 0; i < catAbr.length; i++) {
+    let cat = document.getElementById(`${cat[i].id}`)
     console.log(cat[i].id)
     //let cat = document.getElementById(`${cat[i].id}`)
    // cat.classList.remove('cat-selected')
