@@ -249,8 +249,21 @@ function resetForm() {
     let cat = document.getElementById(`${catAbr[i].id}`)
     cat.classList.remove('cat-selected')
   }
+  let contParent = document.getElementById('cont-container')
   let contRows = document.getElementsByClassName('cont-row')
-  console.log(contRows.length)
+  for (let i = 1; i < contRows.length; i++) {
+        contParent.removeChild(contRows[i])
+  }
+  let medParent = document.getElementById('med-container')
+  let medRows = document.getElementsByClassName('med-row')
+  for (let i = 1; i < medRows.length; i++) {
+	medParent.removeChild(medRows[i])
+  }
+  let locParent = document.getElementById('loc-container')
+  let locRows = document.getElementsByClassName('loc-row')
+  for (let i = 1; i < locRows.length; i++) {
+  	locParent.removeChild(locRows[i])
+  }
   document.getElementById("admin-form").reset()
 }
 
@@ -330,7 +343,7 @@ function formatForm(formData) {
   ]
   let contributor = {}
   let location = {}
-  let assocMedia = {}
+  let aMedia = {}
   for (let i = 0; i < formData.length; i++) {
     const input = formData[i]
     switch (input.id) {
@@ -354,18 +367,18 @@ function formatForm(formData) {
         form.locations.push(newLoc)
         break;
       case 'am-title':
-        assocMedia.title = input.value
+        aMedia.title = input.value
         break;
       case 'am-url':
-        assocMedia.url = input.value
-        break;
+        aMedia.url = input.value
+       break;
       case 'medbtn':
         input.innerText === 'Media Type ' ?
-          assocMedia.type = ''
-          : assocMedia.type = input.innerText
-        const newAssocMed = Object.assign({}, assocMedia)
+          aMedia.type = ''
+          : aMedia.type = input.innerText
+        const newAssocMed = Object.assign({}, aMedia)
         form.assocMedia.push(newAssocMed)
-        break;
+        //break;
     }
     if (input.id.includes('cat') && input.className.includes('cat-selected')) {
       form.categories.push(input.innerText)
