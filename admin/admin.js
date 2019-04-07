@@ -247,15 +247,14 @@ function resetForm() {
   medCount = 1
   for (let i = 0; i < catAbr.length; i++) {
     let cat = document.getElementById(`${catAbr[i].id}`)
-    console.log(cat)
-    //let cat = document.getElementById(`${cat[i].id}`)
     cat.classList.remove('cat-selected')
   }
+  let contRows = document.getElementsByClassName('cont-row')
+  console.log(contRows.length)
   document.getElementById("admin-form").reset()
 }
 
 function populateEdit(projectArr) {
-	// resetForm()
   let project = projectArr[0]
   _rev = project._rev
   const idFields = [
