@@ -57,10 +57,10 @@ const medDiv = `<div class="col-md-4 mb-3">
     placeholder="Link to media">
 </div>
 <div class="dropdown">
-<div id='medbtn'class="medbtn btn custom-dropdown dd-menu-margin small-btn-custom dropdown-toggle dropdownMenudiv"
+<button id='medbtn'class="medbtn btn custom-dropdown dd-menu-margin small-btn-custom dropdown-toggle dropdownMenudiv"
     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Media Type
-</div>
+</button>
 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" onclick="selectMedia(this)">Text Documemnt</a>
     <a class="dropdown-item" onclick="selectMedia(this)">Video</a>
