@@ -19,7 +19,8 @@ let state = {
 }
 
 let modalShowing = true
-const baseUrl = 'http://192.168.1.227:5984'
+const baseUrl = 'http://208.73.205.19:5984'
+// const baseUrl = 'http://192.168.1.227:5984'
 // change to deployed db url 
 
 let editing = false
@@ -57,10 +58,10 @@ const medDiv = `<div class="col-md-4 mb-3">
     placeholder="Link to media">
 </div>
 <div class="dropdown">
-<div id='medbtn'class="medbtn btn custom-dropdown dd-menu-margin small-btn-custom dropdown-toggle dropdownMenudiv"
+<button id='medbtn'class="medbtn btn custom-dropdown dd-menu-margin small-btn-custom dropdown-toggle dropdownMenudiv"
     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Media Type
-</div>
+</button>
 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" onclick="selectMedia(this)">Text Documemnt</a>
     <a class="dropdown-item" onclick="selectMedia(this)">Video</a>
@@ -529,7 +530,8 @@ function login(loginReq, callback, cbBody) {
     dataType: 'json',
     headers: {
       "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      "Access-Control-Allow-Origin": "*"
     },
     success: function (data, status, jqXHR) {
       $(`#login-err`).css('display', 'none')
@@ -578,7 +580,8 @@ function _find(request, callback) {
     dataType: 'json',
     headers: {
       "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type"
+      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+	    "Access-Control-Allow-Origin": "*"
     },
     success: function (data, status, jqXHR) {
       callback(data.docs)
@@ -586,7 +589,7 @@ function _find(request, callback) {
     error: function (jqXHR, status) {
       // console.log('get projects post failed' + jqXHR, status)
       window.location.toString().includes('/fnfadmin')
-        ? window.location = 'freshandfruity/login'
+        ? window.location = '/freshandfruity/login'
         : login(publicUser, _find, request)
     }
   })
