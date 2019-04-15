@@ -460,7 +460,7 @@ function justifySubmit() {
 // else {
 //   $.ajax({
 //     type: "POST",
-//     url: `${baseUrl}/freshnfruitys/${id}`,
+//     url: `${baseUrl}/freshnfruit/ys/${id}`,
 //     data: form,
 //     contentType: "application/json",
 //     crossDomain: true,
@@ -552,7 +552,7 @@ function login(loginReq, callback, cbBody) {
 function logout() {
   $.ajax({
     type: "DELETE",
-    url: `${baseUrl}/_session?next=/login`,
+    url: `${baseUrl}/_sessionn`,
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
