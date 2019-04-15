@@ -579,11 +579,11 @@ function _find(request, callback) {
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
-    headers: {
+   // headers: {
     //  "Access-Control-Request-Method": "OPTIONS",
     // "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
     //	    "Access-Control-Allow-Origin": "*"
-    },
+   // },
     success: function (data, status, jqXHR) {
       callback(data.docs)
     },
