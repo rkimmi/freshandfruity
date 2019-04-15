@@ -427,8 +427,8 @@ function sendProject(form, editing, id) {
       crossDomain: true,
       dataType: 'json',
       headers: {
-        "Access-Control-Request-Method": "OPTIONS",
-        "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      //  "Access-Control-Request-Method": "OPTIONS",
+      //"Access-Control-Request-Headers": "Origin, Accept, Content-Type",
       },
       success: function (data, status, jqXHR) {
         justifySubmit()
@@ -510,7 +510,7 @@ function loginAdmin() {
   const name = document.getElementById('secret-usr').value
   const psw = document.getElementById('secret-psw').value
   user = {
-    username: name,
+    name: name,
     password: psw
   }
   login(user, redirectAdmin, false)
@@ -529,11 +529,12 @@ function login(loginReq, callback, cbBody) {
     crossDomain: true,
     dataType: 'json',
     headers: {
-      "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
-      "Access-Control-Allow-Origin": "*"
+      //"Access-Control-Request-Method": "OPTIONS",
+      //"Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+      //"Access-Control-Allow-Origin": "*"
     },
     success: function (data, status, jqXHR) {
+
       $(`#login-err`).css('display', 'none')
       localStorage.setItem(data.name, 'assumedLogin=true')
       data.name === 'freshnfruitygallery@gmail.com' ? localStorage.removeItem('publicUser') : localStorage.removeItem('freshnfruitygallery@gmail.com')
@@ -556,8 +557,8 @@ function logout() {
     crossDomain: true,
     dataType: 'json',
     headers: {
-      "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+    //  "Access-Control-Request-Method": "OPTIONS",
+    // "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
     },
     success: function (data, status, jqXHR) {
       window.location = '/freshandfruity/login'
@@ -573,15 +574,15 @@ function logout() {
 function _find(request, callback) {
   $.ajax({
     type: "POST",
-    url: `${baseUrl}/fnfprojects/_find`,
+    url: `${baseUrl}/freshnfruity/_find`,
     data: JSON.stringify(request),
     contentType: "application/json",
     crossDomain: true,
     dataType: 'json',
     headers: {
-      "Access-Control-Request-Method": "OPTIONS",
-      "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
-	    "Access-Control-Allow-Origin": "*"
+    //  "Access-Control-Request-Method": "OPTIONS",
+    // "Access-Control-Request-Headers": "Origin, Accept, Content-Type",
+    //	    "Access-Control-Allow-Origin": "*"
     },
     success: function (data, status, jqXHR) {
       callback(data.docs)
