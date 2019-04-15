@@ -421,7 +421,7 @@ function sendProject(form, editing, id) {
   }
     $.ajax({
       type: !editing ? 'POST' : 'PUT',
-      url: !editing ? `${baseUrl}/fnfprojects` : `${baseUrl}/fnfprojects/${id}`,
+      url: !editing ? `${baseUrl}/freshnfruity` : `${baseUrl}/freshnfruity/${id}`,
       data: form,
       contentType: "application/json",
       crossDomain: true,
@@ -460,7 +460,7 @@ function justifySubmit() {
 // else {
 //   $.ajax({
 //     type: "POST",
-//     url: `${baseUrl}/fnfprojects/${id}`,
+//     url: `${baseUrl}/freshnfruitys/${id}`,
 //     data: form,
 //     contentType: "application/json",
 //     crossDomain: true,
@@ -589,9 +589,9 @@ function _find(request, callback) {
     },
     error: function (jqXHR, status) {
       // console.log('get projects post failed' + jqXHR, status)
-      window.location.toString().includes('/fnfadmin')
-        ? window.location = '/freshandfruity/login'
-        : login(publicUser, _find, request)
+     window.location.toString().includes('/fnfadmin')
+      ? window.location = '/freshandfruity/login'
+      : login(publicUser, _find, request)
     }
   })
 }
